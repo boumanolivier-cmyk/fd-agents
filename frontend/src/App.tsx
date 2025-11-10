@@ -1,16 +1,15 @@
 /**
  * Main App component - FD-inspired professional layout
+ * Refactored into smaller layout components for better maintainability
  */
-import { Box, Typography, AppBar, Toolbar, Tabs, Tab } from "@mui/material";
+import { Box } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useState } from "react";
-import ChatInterface from "./components/ChatInterface";
-import FileUpload from "./components/FileUpload";
-import ChartDisplay from "./components/ChartDisplay";
-import StyleSelector from "./components/StyleSelector";
+import AppHeader from "./components/layout/AppHeader";
+import TabNavigation from "./components/layout/TabNavigation";
+import TabContent from "./components/layout/TabContent";
+import ChartOutputPanel from "./components/layout/ChartOutputPanel";
 import "./App.css";
 
 const theme = createTheme({
@@ -84,38 +83,7 @@ function App() {
           overflow: "hidden",
         }}
       >
-        {/* Professional Header */}
-        <AppBar position="static" color="inherit" className="app-header">
-          <Toolbar sx={{ borderBottom: "1px solid", borderColor: "divider" }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "baseline",
-                gap: 1,
-                flexGrow: 1,
-              }}
-            >
-              <Typography
-                variant="h6"
-                component="h1"
-                sx={{
-                  color: "primary.main",
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                AI Chart Generator
-              </Typography>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{ display: { xs: "none", sm: "block" } }}
-              >
-                Professional data visualization powered by AI
-              </Typography>
-            </Box>
-          </Toolbar>
-        </AppBar>
+        <AppHeader />
 
         {/* Full-width Main Content Grid */}
         <Box className="app-container">
@@ -132,84 +100,12 @@ function App() {
                 overflow: "hidden",
               }}
             >
-              {/* Tab Navigation */}
-              <Box
-                sx={{
-                  borderBottom: "1px solid",
-                  borderColor: "divider",
-                  bgcolor: "#fafafa",
-                }}
-              >
-                <Tabs
-                  value={tab}
-                  onChange={(_, v) => setTab(v)}
-                  sx={{
-                    minHeight: 48,
-                    "& .MuiTabs-indicator": {
-                      height: 3,
-                    },
-                  }}
-                >
-                  <Tab 
-                    icon={<ChatBubbleOutlineIcon />} 
-                    iconPosition="start"
-                    label="Chat Interface" 
-                    sx={{ minHeight: 48 }} 
-                  />
-                  <Tab 
-                    icon={<UploadFileIcon />} 
-                    iconPosition="start"
-                    label="Excel Upload" 
-                    sx={{ minHeight: 48 }} 
-                  />
-                </Tabs>
-              </Box>
-
-              {/* Tab Content */}
-              <Box
-                sx={{
-                  flex: 1,
-                  overflow: "hidden",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                {tab === 0 && <ChatInterface />}
-                {tab === 1 && (
-                  <Box sx={{ flex: 1, overflow: "auto", p: 3 }}>
-                    <FileUpload />
-                  </Box>
-                )}
-              </Box>
+              <TabNavigation activeTab={tab} onTabChange={setTab} />
+              <TabContent activeTab={tab} />
             </Box>
 
             {/* Right Panel - Output Section */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-                bgcolor: "#fafafa",
-                overflow: "hidden",
-              }}
-            >
-              {/* Chart Display Area */}
-              <Box sx={{ flex: 1, overflow: "auto", p: 3 }}>
-                <ChartDisplay />
-              </Box>
-
-              {/* Style Selector at Bottom */}
-              <Box
-                sx={{
-                  borderTop: "1px solid",
-                  borderColor: "divider",
-                  p: 2,
-                  bgcolor: "background.paper",
-                }}
-              >
-                <StyleSelector />
-              </Box>
-            </Box>
+            <ChartOutputPanel />
           </Box>
         </Box>
       </Box>
