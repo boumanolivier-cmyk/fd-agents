@@ -4,6 +4,8 @@
 import { Box, Typography, AppBar, Toolbar, Tabs, Tab } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useState } from "react";
 import ChatInterface from "./components/ChatInterface";
 import FileUpload from "./components/FileUpload";
@@ -148,8 +150,18 @@ function App() {
                     },
                   }}
                 >
-                  <Tab label="Chat Interface" sx={{ minHeight: 48 }} />
-                  <Tab label="Excel Upload" sx={{ minHeight: 48 }} />
+                  <Tab 
+                    icon={<ChatBubbleOutlineIcon />} 
+                    iconPosition="start"
+                    label="Chat Interface" 
+                    sx={{ minHeight: 48 }} 
+                  />
+                  <Tab 
+                    icon={<UploadFileIcon />} 
+                    iconPosition="start"
+                    label="Excel Upload" 
+                    sx={{ minHeight: 48 }} 
+                  />
                 </Tabs>
               </Box>
 

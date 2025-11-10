@@ -617,9 +617,9 @@
   },
   "session-1762811099195-iv3x1l": {
     "session_id": "session-1762811099195-iv3x1l",
-    "style": "bnr",
+    "style": "fd",
     "created_at": "2025-11-10T21:45:03.516884",
-    "last_used": "2025-11-10T21:54:59.902113",
+    "last_used": "2025-11-10T22:15:41.195857",
     "chat_history": [
       {
         "role": "user",
@@ -642,6 +642,153 @@
         "timestamp": "2025-11-10T21:54:55.889545",
         "metadata": {
           "chart_id": "85a698c8-8bc5-46a6-b596-ef2e1f7e75af",
+          "chart_type": "line",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0,
+            175.0
+          ],
+          "title": "Quarterly Values Over Time"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Uploaded Excel file: fdmg_timeseries_example.xlsx",
+        "timestamp": "2025-11-10T21:57:22.858022"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a chart from your Excel file!",
+        "timestamp": "2025-11-10T21:57:23.844440",
+        "metadata": {
+          "chart_id": "a6488656-7976-4ae2-ae11-c3757df4546a",
+          "chart_type": "line",
+          "x_labels": [
+            "2025-01-01",
+            "2025-02-01",
+            "2025-03-01",
+            "2025-04-01",
+            "2025-05-01",
+            "2025-06-01",
+            "2025-07-01",
+            "2025-08-01",
+            "2025-09-01",
+            "2025-10-01",
+            "2025-11-01",
+            "2025-12-01",
+            "2026-01-01",
+            "2026-02-01",
+            "2026-03-01",
+            "2026-04-01",
+            "2026-05-01",
+            "2026-06-01",
+            "2026-07-01",
+            "2026-08-01",
+            "2026-09-01",
+            "2026-10-01",
+            "2026-11-01",
+            "2026-12-01",
+            "2027-01-01",
+            "2027-02-01",
+            "2027-03-01",
+            "2027-04-01",
+            "2027-05-01",
+            "2027-06-01",
+            "2027-07-01",
+            "2027-08-01",
+            "2027-09-01",
+            "2027-10-01",
+            "2027-11-01",
+            "2027-12-01"
+          ],
+          "y_values": [
+            320.0,
+            340.0,
+            315.0,
+            360.0,
+            380.0,
+            370.0,
+            400.0,
+            407.142857142857,
+            420.178571428571,
+            433.214285714286,
+            446.25,
+            459.285714285714,
+            472.321428571428,
+            485.357142857143,
+            498.392857142857,
+            511.428571428571,
+            524.464285714286,
+            537.5,
+            550.535714285714,
+            563.571428571428,
+            576.607142857143,
+            589.642857142857,
+            602.678571428571,
+            615.714285714285,
+            628.75,
+            641.785714285714,
+            654.821428571428,
+            667.857142857143,
+            680.892857142857,
+            693.928571428571,
+            706.964285714285,
+            720.0,
+            733.035714285714,
+            746.071428571428,
+            759.107142857143,
+            772.142857142857
+          ],
+          "source": "excel_auto_detect"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Uploaded Excel file: fdmg_categorical_example.xlsx",
+        "timestamp": "2025-11-10T21:57:37.282332"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a chart from your Excel file!",
+        "timestamp": "2025-11-10T21:57:37.751082",
+        "metadata": {
+          "chart_id": "c066f726-edb0-43c3-9017-6906753f0612",
+          "chart_type": "bar",
+          "x_labels": [
+            "Online",
+            "Print",
+            "Events",
+            "Podcast",
+            "Nieuwsbrief"
+          ],
+          "y_values": [
+            180,
+            75,
+            40,
+            60,
+            95
+          ],
+          "source": "excel_auto_detect"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
+        "timestamp": "2025-11-10T22:15:37.784057"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a line chart for you!",
+        "timestamp": "2025-11-10T22:15:41.195848",
+        "metadata": {
+          "chart_id": "fa0d5ffb-8213-417b-8e91-23d230160870",
           "chart_type": "line",
           "x_labels": [
             "Q1",
@@ -993,6 +1140,41 @@
         "role": "assistant",
         "content": "This request is not about creating a chart.",
         "timestamp": "2025-11-10T21:53:54.714150"
+      }
+    ]
+  },
+  "test-session-1762812714": {
+    "session_id": "test-session-1762812714",
+    "style": "fd",
+    "created_at": "2025-11-10T22:11:54.833632",
+    "last_used": "2025-11-10T22:11:57.542582",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
+        "timestamp": "2025-11-10T22:11:54.836114"
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a line chart for you!",
+        "timestamp": "2025-11-10T22:11:57.542558",
+        "metadata": {
+          "chart_id": "cc718dba-4d75-459a-8180-83128d1caf85",
+          "chart_type": "line",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0,
+            175.0
+          ],
+          "title": "Quarterly Sales Data"
+        }
       }
     ]
   }

@@ -1,5 +1,6 @@
 """API routes for chart generation"""
 import uuid
+import logging
 from pathlib import Path
 from typing import Literal
 from fastapi import APIRouter, File, UploadFile, HTTPException, Form
@@ -18,6 +19,7 @@ from app.services.persistence import persistence
 from app.config.settings import settings
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 @router.post("/chat", response_model=ChatResponse)
@@ -51,9 +53,12 @@ async def chat(request: ChatRequest):
         # Analyze the request with the AI agent (with full conversation context)
         chart_data = await analyze_chart_request(request.message, conversation_history)
         
-        # DEBUG: log raw ChartData from agent for troubleshooting
-        print(f"DEBUG: agent ChartData: is_valid={chart_data.is_valid}, chart_type={chart_data.chart_type}, "
-              f"x_labels={chart_data.x_labels}, y_values={chart_data.y_values}, reason={chart_data.reason}")
+        # Log raw ChartData from agent for troubleshooting
+        logger.debug(
+            "Agent returned ChartData: is_valid=%s, chart_type=%s, x_labels=%s, y_values=%s, reason=%s",
+            chart_data.is_valid, chart_data.chart_type, chart_data.x_labels, 
+            chart_data.y_values, chart_data.reason
+        )
         
         # Normalise agent output:
         # - If chart_type missing but x_labels+y_values present, infer sensible default
@@ -65,7 +70,7 @@ async def chat(request: ChatRequest):
         if x_labels and y_values and not chart_type:
             # Fallback: prefer line for longer/sequential data, else bar
             chart_type = "line" if len(x_labels) >= 10 else "bar"
-            print(f"DEBUG: inferred chart_type='{chart_type}' from {len(x_labels)} x_labels")
+            logger.info("Inferred chart_type='%s' from %d x_labels", chart_type, len(x_labels))
 
         # Try to coerce y_values to floats (agent may return numbers as strings)
         coerced_y = []
@@ -75,7 +80,7 @@ async def chat(request: ChatRequest):
                     coerced_y.append(float(v))
             except Exception as e:
                 # If coercion fails, return a helpful response
-                print(f"DEBUG: failed to coerce y_values: {e}")
+                logger.warning("Failed to coerce y_values to floats: %s", e)
                 error_msg = "I couldn't interpret the numeric values for the chart. Please provide numbers for the y-axis."
                 persistence.add_to_chat_history(request.session_id, "assistant", error_msg)
                 return ChatResponse(response=error_msg, chart_url=None, chart_id=None)
@@ -183,13 +188,30 @@ async def upload_excel(
     Returns:
         UploadResponse with chart URL
     """
+    # Maximum file size: 10MB
+    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB in bytes
+    
     try:
         # Validate file type
         if not file.filename.endswith(('.xlsx', '.xls')):
+            logger.warning("Invalid file type uploaded: %s", file.filename)
             raise HTTPException(
                 status_code=400, 
                 detail="Only Excel files (.xlsx, .xls) are supported"
             )
+        
+        # Read file content and check size
+        content = await file.read()
+        file_size = len(content)
+        
+        if file_size > MAX_FILE_SIZE:
+            logger.warning("File too large: %s bytes (max %s)", file_size, MAX_FILE_SIZE)
+            raise HTTPException(
+                status_code=413,
+                detail=f"File too large. Maximum size is {MAX_FILE_SIZE // (1024*1024)}MB"
+            )
+        
+        logger.info("Received file upload: %s (%d bytes)", file.filename, file_size)
         
         # Update session last used
         persistence.update_last_used(session_id)
@@ -206,7 +228,6 @@ async def upload_excel(
         
         try:
             with open(temp_path, "wb") as f:
-                content = await file.read()
                 f.write(content)
             
             # Parse the Excel file
