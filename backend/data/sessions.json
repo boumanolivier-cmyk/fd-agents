@@ -1667,5 +1667,425 @@
         }
       }
     ]
+  },
+  "test-session-1762815008": {
+    "session_id": "test-session-1762815008",
+    "style": "fd",
+    "created_at": "2025-11-10T22:50:08.610000",
+    "last_used": "2025-11-10T22:50:14.615289",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
+        "timestamp": "2025-11-10T22:50:08.613288",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:50:14.615277",
+        "metadata": {
+          "chart_id": "a4e8c0bd-16fb-43ef-a7e4-8f3ec70f2180",
+          "chart_type": "bar",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0,
+            175.0
+          ],
+          "title": "Quarterly Sales Data"
+        }
+      }
+    ]
+  },
+  "test-1762815025680": {
+    "session_id": "test-1762815025680",
+    "style": "fd",
+    "created_at": "2025-11-10T22:50:25.684840",
+    "last_used": "2025-11-10T22:50:29.068898",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
+        "timestamp": "2025-11-10T22:50:25.687922",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:50:29.068886",
+        "metadata": {
+          "chart_id": "9a40acfe-c8cb-4445-974e-564315274c55",
+          "chart_type": "bar",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0,
+            175.0
+          ],
+          "title": "Quarterly Sales Data"
+        }
+      }
+    ]
+  },
+  "test-1762815030072": {
+    "session_id": "test-1762815030072",
+    "style": "fd",
+    "created_at": "2025-11-10T22:50:30.076018",
+    "last_used": "2025-11-10T22:50:33.525295",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Make a line chart with 2020=50, 2021=75, 2022=100, 2023=125",
+        "timestamp": "2025-11-10T22:50:30.079698",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a line chart for you!",
+        "timestamp": "2025-11-10T22:50:33.525284",
+        "metadata": {
+          "chart_id": "3125189e-c72c-497f-8189-f65fc4e5058a",
+          "chart_type": "line",
+          "x_labels": [
+            "2020",
+            "2021",
+            "2022",
+            "2023"
+          ],
+          "y_values": [
+            50.0,
+            75.0,
+            100.0,
+            125.0
+          ],
+          "title": "Yearly Data Over Time"
+        }
+      }
+    ]
+  },
+  "test-1762815034528": {
+    "session_id": "test-1762815034528",
+    "style": "fd",
+    "created_at": "2025-11-10T22:50:34.532298",
+    "last_used": "2025-11-10T22:50:37.324477",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Chart this data: Apple=25, Banana=30, Orange=20, Grape=15",
+        "timestamp": "2025-11-10T22:50:34.535542",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:50:37.324463",
+        "metadata": {
+          "chart_id": "e73e724a-6644-47d3-8bd4-d17ec3d6a2d4",
+          "chart_type": "bar",
+          "x_labels": [
+            "Apple",
+            "Banana",
+            "Orange",
+            "Grape"
+          ],
+          "y_values": [
+            25.0,
+            30.0,
+            20.0,
+            15.0
+          ],
+          "title": "Fruit Comparison"
+        }
+      }
+    ]
+  },
+  "test-1762815038328": {
+    "session_id": "test-1762815038328",
+    "style": "fd",
+    "created_at": "2025-11-10T22:50:38.331889",
+    "last_used": "2025-11-10T22:50:41.510728",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Show sales: Jan=100, Feb=120, Mar=110, Apr=130, May=140",
+        "timestamp": "2025-11-10T22:50:38.334950",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a line chart for you!",
+        "timestamp": "2025-11-10T22:50:41.510714",
+        "metadata": {
+          "chart_id": "e17e1c3d-269d-4f89-92aa-a9a5840a93e6",
+          "chart_type": "line",
+          "x_labels": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May"
+          ],
+          "y_values": [
+            100.0,
+            120.0,
+            110.0,
+            130.0,
+            140.0
+          ],
+          "title": "Monthly Sales Data"
+        }
+      }
+    ]
+  },
+  "test-1762815042515": {
+    "session_id": "test-1762815042515",
+    "style": "fd",
+    "created_at": "2025-11-10T22:50:42.519379",
+    "last_used": "2025-11-10T22:50:45.671520",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create chart: Product A=500, Product B=750, Product C=600",
+        "timestamp": "2025-11-10T22:50:42.522997",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:50:45.671509",
+        "metadata": {
+          "chart_id": "6ca8e2b9-402d-4bf0-991d-99560b839e0a",
+          "chart_type": "bar",
+          "x_labels": [
+            "Product A",
+            "Product B",
+            "Product C"
+          ],
+          "y_values": [
+            500.0,
+            750.0,
+            600.0
+          ],
+          "title": "Product Comparison"
+        }
+      }
+    ]
+  },
+  "explicit-type-test-1762815096": {
+    "session_id": "explicit-type-test-1762815096",
+    "style": "fd",
+    "created_at": "2025-11-10T22:51:36.032026",
+    "last_used": "2025-11-10T22:52:01.429453",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
+        "timestamp": "2025-11-10T22:51:36.035726",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:51:39.074442",
+        "metadata": {
+          "chart_id": "f9b990a7-6ca8-490f-8233-1aebfbebf0ba",
+          "chart_type": "bar",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0,
+            175.0
+          ],
+          "title": "Quarterly Sales Data"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Make a line chart: Apple=25, Banana=30, Orange=20",
+        "timestamp": "2025-11-10T22:51:40.084853",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "The data provided does not represent a time series or continuous data suitable for a line chart.",
+        "timestamp": "2025-11-10T22:51:42.228420",
+        "metadata": null
+      },
+      {
+        "role": "user",
+        "content": "Show me a bar chart with 2020=100, 2021=150, 2022=200",
+        "timestamp": "2025-11-10T22:51:43.240623",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:51:47.953043",
+        "metadata": {
+          "chart_id": "e12aa63e-e56c-4f91-8a24-9ce934e6cc4a",
+          "chart_type": "bar",
+          "x_labels": [
+            "2020",
+            "2021",
+            "2022"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0
+          ],
+          "title": "Bar Chart of Values by Year"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Chart this: Jan=50, Feb=60, Mar=70, Apr=80",
+        "timestamp": "2025-11-10T22:51:48.963152",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a line chart for you!",
+        "timestamp": "2025-11-10T22:51:51.791768",
+        "metadata": {
+          "chart_id": "767b33af-f581-4426-8eec-3f9993a8adf0",
+          "chart_type": "line",
+          "x_labels": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr"
+          ],
+          "y_values": [
+            50.0,
+            60.0,
+            70.0,
+            80.0
+          ],
+          "title": "Monthly Data Chart"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Show chart: Dogs=40, Cats=35, Birds=25",
+        "timestamp": "2025-11-10T22:51:52.802541",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:51:55.569294",
+        "metadata": {
+          "chart_id": "64c68c38-0c77-498c-976c-b9faf6f3d668",
+          "chart_type": "bar",
+          "x_labels": [
+            "Dogs",
+            "Cats",
+            "Birds"
+          ],
+          "y_values": [
+            40.0,
+            35.0,
+            25.0
+          ],
+          "title": "Pet Comparison"
+        }
+      },
+      {
+        "role": "user",
+        "content": "I need a bar graph: Q1=10, Q2=20, Q3=15, Q4=25",
+        "timestamp": "2025-11-10T22:51:56.580201",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:51:58.534922",
+        "metadata": {
+          "chart_id": "331259d4-e94b-4e45-923b-516ad47d331c",
+          "chart_type": "bar",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            10.0,
+            20.0,
+            15.0,
+            25.0
+          ],
+          "title": "Quarterly Data Comparison"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Can you make a line graph with ProductA=100, ProductB=200, ProductC=150",
+        "timestamp": "2025-11-10T22:51:59.545275",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "The data provided does not represent a time series or continuous data suitable for a line chart.",
+        "timestamp": "2025-11-10T22:52:01.429434",
+        "metadata": null
+      }
+    ]
+  },
+  "final-test": {
+    "session_id": "final-test",
+    "style": "fd",
+    "created_at": "2025-11-10T22:53:04.334901",
+    "last_used": "2025-11-10T22:53:07.005547",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
+        "timestamp": "2025-11-10T22:53:04.341620",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-10T22:53:07.005537",
+        "metadata": {
+          "chart_id": "44c67e11-7fa6-475e-ba8b-45288d4be0d4",
+          "chart_type": "bar",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0,
+            175.0
+          ],
+          "title": "Quarterly Sales Data"
+        }
+      }
+    ]
   }
 }
