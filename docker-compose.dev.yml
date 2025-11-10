@@ -1,0 +1,65 @@
+services:
+  # Backend service (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chart-backend-dev
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount source code for hot-reload
+      - ./backend:/app
+      # Persist virtual environment
+      - backend-venv:/app/venv
+      # Persist data and charts
+      - ./backend/data:/app/data
+      - ./backend/charts:/app/charts
+    environment:
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - ./backend/.env
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - chart-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Frontend service (React + Vite)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: chart-frontend-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      # Mount source code for hot-reload
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DOCKER_ENV=true
+      - VITE_BACKEND_URL=http://backend:8000
+    command: npm run dev -- --host
+    networks:
+      - chart-network
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5173/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  backend-venv:
+
+networks:
+  chart-network:
+    driver: bridge
