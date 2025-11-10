@@ -13,7 +13,7 @@ interface MessageListProps {
 
 const examplePrompts = [
   "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
-  "Make a line chart showing monthly sales trend",
+  "Make a line chart showing monthly sales trend for 100, 140, 130, 160, 180, 200 from January to June",
 ];
 
 export default function MessageList({
