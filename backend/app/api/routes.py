@@ -51,6 +51,35 @@ async def chat(request: ChatRequest):
         # Analyze the request with the AI agent (with full conversation context)
         chart_data = await analyze_chart_request(request.message, conversation_history)
         
+        # DEBUG: log raw ChartData from agent for troubleshooting
+        print(f"DEBUG: agent ChartData: is_valid={chart_data.is_valid}, chart_type={chart_data.chart_type}, "
+              f"x_labels={chart_data.x_labels}, y_values={chart_data.y_values}, reason={chart_data.reason}")
+        
+        # Normalise agent output:
+        # - If chart_type missing but x_labels+y_values present, infer sensible default
+        # - Coerce y_values to floats
+        x_labels = chart_data.x_labels or []
+        y_values = chart_data.y_values or []
+        chart_type = chart_data.chart_type
+
+        if x_labels and y_values and not chart_type:
+            # Fallback: prefer line for longer/sequential data, else bar
+            chart_type = "line" if len(x_labels) >= 10 else "bar"
+            print(f"DEBUG: inferred chart_type='{chart_type}' from {len(x_labels)} x_labels")
+
+        # Try to coerce y_values to floats (agent may return numbers as strings)
+        coerced_y = []
+        if y_values:
+            try:
+                for v in y_values:
+                    coerced_y.append(float(v))
+            except Exception as e:
+                # If coercion fails, return a helpful response
+                print(f"DEBUG: failed to coerce y_values: {e}")
+                error_msg = "I couldn't interpret the numeric values for the chart. Please provide numbers for the y-axis."
+                persistence.add_to_chat_history(request.session_id, "assistant", error_msg)
+                return ChatResponse(response=error_msg, chart_url=None, chart_id=None)
+        
         # If not a valid chart request, return refusal
         if not chart_data.is_valid:
             response_text = chart_data.reason or "I can only help you create bar or line charts. Please ask me to make a chart with some data!"
@@ -68,13 +97,13 @@ async def chat(request: ChatRequest):
                 chart_id=None
             )
         
-        # If valid, generate the chart
-        if chart_data.chart_type and chart_data.x_labels and chart_data.y_values:
+        # If valid and we have data, generate chart (use inferred/coerced values)
+        if chart_type and x_labels and coerced_y:
             try:
                 result = chart_generator.generate_both_formats(
-                    chart_type=chart_data.chart_type,
-                    x_labels=chart_data.x_labels,
-                    y_values=chart_data.y_values,
+                    chart_type=chart_type,
+                    x_labels=x_labels,
+                    y_values=coerced_y,
                     title=chart_data.title or "Chart",
                     x_label=chart_data.x_label,
                     y_label=chart_data.y_label,
@@ -82,7 +111,7 @@ async def chat(request: ChatRequest):
                 )
                 
                 chart_id = result["png"][0]
-                response_text = f"I've created a {chart_data.chart_type} chart for you!"
+                response_text = f"I've created a {chart_type} chart for you!"
                 
                 # Add assistant response to history with chart metadata
                 persistence.add_to_chat_history(
@@ -91,9 +120,9 @@ async def chat(request: ChatRequest):
                     response_text,
                     metadata={
                         "chart_id": chart_id,
-                        "chart_type": chart_data.chart_type,
-                        "x_labels": chart_data.x_labels,
-                        "y_values": chart_data.y_values,
+                        "chart_type": chart_type,
+                        "x_labels": x_labels,
+                        "y_values": coerced_y,
                         "title": chart_data.title
                     }
                 )
@@ -119,6 +148,7 @@ async def chat(request: ChatRequest):
                     chart_id=None
                 )
         else:
+            # Graceful fallback if something still missing
             clarification_text = "I understood you want a chart, but I need more information about the data. Could you provide the specific values you want to chart?"
             
             # Add clarification request to history
