@@ -1,11 +1,14 @@
 """Chart generation agent with OpenAI and fallback support"""
+
 import json
 import logging
-from typing import Literal, Optional, List, Dict, Any
+from typing import Any, Dict, List, Literal, Optional
+
 from openai import AsyncOpenAI
-from app.models.schemas import ChartData
-from app.config.settings import settings
+
 from app.agents.fallback_agent import fallback_agent
+from app.config.settings import settings
+from app.models.schemas import ChartData
 
 logger = logging.getLogger(__name__)
 
@@ -175,20 +178,19 @@ else:
 
 
 async def analyze_chart_request(
-    user_message: str, 
-    conversation_history: Optional[List[Dict[str, Any]]] = None
+    user_message: str, conversation_history: Optional[List[Dict[str, Any]]] = None
 ) -> ChartData:
     """
     Analyze a user's message to determine if it's a valid chart request
     and extract chart data if valid.
-    
+
     Automatically uses OpenAI if API key is available, otherwise falls back
     to rule-based pattern matching.
-    
+
     Args:
         user_message: The user's input message
         conversation_history: Optional list of previous messages in the conversation
-    
+
     Returns:
         ChartData object with validation and extraction results
     """
@@ -196,14 +198,14 @@ async def analyze_chart_request(
     if not HAS_OPENAI_KEY:
         logger.debug("Using fallback agent for: %s", user_message[:50])
         return await fallback_agent.analyze(user_message, conversation_history)
-    
+
     # Use OpenAI agent
     try:
         logger.debug("Using OpenAI agent for: %s", user_message[:50])
-        
+
         # Build messages array with conversation history
         messages = [{"role": "system", "content": CHART_AGENT_PROMPT}]
-        
+
         # Add conversation history if provided
         if conversation_history:
             # Only include the last 10 messages to avoid context overflow
@@ -211,26 +213,23 @@ async def analyze_chart_request(
             recent_history = conversation_history[-10:]
             for msg in recent_history:
                 if msg.get("role") in ["user", "assistant"]:
-                    messages.append({
-                        "role": msg["role"],
-                        "content": msg["content"]
-                    })
-        
+                    messages.append({"role": msg["role"], "content": msg["content"]})
+
         # Add current user message
         messages.append({"role": "user", "content": user_message})
-        
+
         response = await client.chat.completions.create(
             model="gpt-4o-mini",
             messages=messages,
             response_format={"type": "json_object"},
-            temperature=0.3
+            temperature=0.3,
         )
-        
+
         content = response.choices[0].message.content
         data = json.loads(content)
-        
+
         return ChartData(**data)
-    
+
     except Exception as e:
         logger.error("OpenAI agent error: %s. Falling back to rule-based agent.", e)
         # Fallback to rule-based agent if OpenAI fails

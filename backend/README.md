@@ -1,5 +1,23 @@
 # Backend - AI Chart Generator
 
+## 🚀 TL;DR
+
+```bash
+# Setup
+cp .env.example .env  # Add your OPENAI_API_KEY
+pip install -r requirements.txt
+
+# Run
+uvicorn app.main:app --reload --port 8000
+
+# Test
+python tests/run_evals.py
+```
+
+**API Docs:** http://localhost:8000/docs
+
+---
+
 FastAPI backend with Pydantic AI for intelligent chart generation.
 
 ## Setup

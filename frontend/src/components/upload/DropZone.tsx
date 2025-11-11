@@ -1,10 +1,10 @@
 /**
  * Drop Zone component - Drag and drop file upload interface
  */
-import { Box, Paper, Typography, Button, CircularProgress, Chip } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import DescriptionIcon from "@mui/icons-material/Description";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { Box, Paper, Typography, Button, CircularProgress, Chip } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DescriptionIcon from '@mui/icons-material/Description';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 interface DropZoneProps {
   dragActive: boolean;
@@ -32,17 +32,17 @@ export default function DropZone({
       elevation={0}
       sx={{
         p: 5,
-        textAlign: "center",
+        textAlign: 'center',
         border: 2,
-        borderStyle: "dashed",
-        borderColor: dragActive ? "primary.main" : "#e0e0e0",
-        bgcolor: dragActive ? "rgba(55, 149, 150, 0.04)" : "#fafafa",
+        borderStyle: 'dashed',
+        borderColor: dragActive ? 'primary.main' : '#e0e0e0',
+        bgcolor: dragActive ? 'rgba(55, 149, 150, 0.04)' : '#fafafa',
         borderRadius: 2,
-        transition: "all 0.2s ease",
-        cursor: isLoading ? "wait" : "pointer",
-        "&:hover": {
-          borderColor: isLoading ? "#e0e0e0" : "primary.light",
-          bgcolor: isLoading ? "#fafafa" : "rgba(55, 149, 150, 0.02)",
+        transition: 'all 0.2s ease',
+        cursor: isLoading ? 'wait' : 'pointer',
+        '&:hover': {
+          borderColor: isLoading ? '#e0e0e0' : 'primary.light',
+          bgcolor: isLoading ? '#fafafa' : 'rgba(55, 149, 150, 0.02)',
         },
       }}
       onDragEnter={onDragEnter}
@@ -56,18 +56,15 @@ export default function DropZone({
         accept=".xlsx,.xls"
         onChange={onFileChange}
         disabled={isLoading}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
       />
 
-      <label
-        htmlFor="file-upload"
-        style={{ cursor: isLoading ? "wait" : "pointer" }}
-      >
+      <label htmlFor="file-upload" style={{ cursor: isLoading ? 'wait' : 'pointer' }}>
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             gap: 2,
           }}
         >
@@ -84,8 +81,8 @@ export default function DropZone({
                   size="small"
                   sx={{
                     mt: 1,
-                    bgcolor: "rgba(55, 149, 150, 0.1)",
-                    color: "primary.main",
+                    bgcolor: 'rgba(55, 149, 150, 0.1)',
+                    color: 'primary.main',
                     fontWeight: 500,
                   }}
                 />
@@ -100,41 +97,34 @@ export default function DropZone({
                 sx={{
                   width: 72,
                   height: 72,
-                  borderRadius: "50%",
-                  bgcolor: "rgba(55, 149, 150, 0.1)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  borderRadius: '50%',
+                  bgcolor: 'rgba(55, 149, 150, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   mb: 1,
                 }}
               >
-                <DescriptionIcon
-                  sx={{ fontSize: 36, color: "primary.main" }}
-                />
+                <DescriptionIcon sx={{ fontSize: 36, color: 'primary.main' }} />
               </Box>
 
               <Typography variant="h6" fontWeight={600}>
                 Upload Excel File
               </Typography>
 
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ maxWidth: 400 }}
-              >
-                Drag and drop your Excel file here, or click to browse. We'll
-                automatically analyze your data and generate an appropriate
-                chart.
+              <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 400 }}>
+                Drag and drop your Excel file here, or click to browse. We'll automatically analyze
+                your data and generate an appropriate chart.
               </Typography>
 
-              <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
+              <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
                 <Typography
                   variant="caption"
                   sx={{
                     px: 1.5,
                     py: 0.5,
-                    bgcolor: "#ffffff",
-                    border: "1px solid #e0e0e0",
+                    bgcolor: '#ffffff',
+                    border: '1px solid #e0e0e0',
                     borderRadius: 1,
                     fontWeight: 500,
                   }}
@@ -146,8 +136,8 @@ export default function DropZone({
                   sx={{
                     px: 1.5,
                     py: 0.5,
-                    bgcolor: "#ffffff",
-                    border: "1px solid #e0e0e0",
+                    bgcolor: '#ffffff',
+                    border: '1px solid #e0e0e0',
                     borderRadius: 1,
                     fontWeight: 500,
                   }}
@@ -162,7 +152,7 @@ export default function DropZone({
                 startIcon={<CloudUploadIcon />}
                 sx={{
                   mt: 2,
-                  textTransform: "none",
+                  textTransform: 'none',
                   px: 3,
                   py: 1,
                   fontWeight: 600,

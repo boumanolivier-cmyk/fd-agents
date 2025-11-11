@@ -2,11 +2,11 @@
  * Chat interface component - FD-inspired clean design
  * Refactored into smaller components for better maintainability
  */
-import { Box, Alert } from "@mui/material";
-import ChatHeader from "./chat/ChatHeader";
-import MessageList from "./chat/MessageList";
-import MessageInput from "./chat/MessageInput";
-import { useChatMessages } from "../hooks/useChatMessages";
+import { Box, Alert } from '@mui/material';
+import ChatHeader from './chat/ChatHeader';
+import MessageList from './chat/MessageList';
+import MessageInput from './chat/MessageInput';
+import { useChatMessages } from '../hooks/useChatMessages';
 
 export default function ChatInterface() {
   const {
@@ -23,10 +23,10 @@ export default function ChatInterface() {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        bgcolor: "#ffffff",
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        bgcolor: '#ffffff',
       }}
     >
       <ChatHeader
@@ -35,11 +35,7 @@ export default function ChatInterface() {
         disabled={isLoading}
       />
 
-      <MessageList
-        messages={chatHistory}
-        isLoading={isLoading}
-        onExampleClick={setInput}
-      />
+      <MessageList messages={chatHistory} isLoading={isLoading} onExampleClick={setInput} />
 
       {error && (
         <Alert
@@ -51,12 +47,7 @@ export default function ChatInterface() {
         </Alert>
       )}
 
-      <MessageInput
-        value={input}
-        onChange={setInput}
-        onSend={handleSend}
-        disabled={isLoading}
-      />
+      <MessageInput value={input} onChange={setInput} onSend={handleSend} disabled={isLoading} />
     </Box>
   );
 }

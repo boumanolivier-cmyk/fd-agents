@@ -1,6 +1,8 @@
 """API route modules"""
+
 from fastapi import APIRouter
-from app.api.routes import chat, upload, charts, preferences
+
+from app.api.routes import charts, chat, preferences, upload
 
 # Create main API router
 api_router = APIRouter()

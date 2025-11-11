@@ -1,3 +1,24 @@
+# Frontend - AI Chart Generator
+
+## 🚀 TL;DR
+
+```bash
+# Install & Run
+npm install
+npm run dev
+
+# Format & Lint
+npm run format
+npm run lint
+
+# Build
+npm run build
+```
+
+**Dev Server:** http://localhost:5173
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

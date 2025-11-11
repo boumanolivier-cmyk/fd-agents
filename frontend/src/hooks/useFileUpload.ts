@@ -1,8 +1,8 @@
 /**
  * Custom hook for file upload handling
  */
-import { useState, useCallback } from "react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useState, useCallback } from 'react';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   sessionIdAtom,
   chatHistoryAtom,
@@ -10,9 +10,9 @@ import {
   currentChartAtom,
   errorAtom,
   stylePreferenceAtom,
-} from "../state/atoms";
-import { uploadExcelFile } from "../api/client";
-import type { Message } from "../types";
+} from '../state/atoms';
+import { uploadExcelFile } from '../api/client';
+import type { Message } from '../types';
 
 export function useFileUpload() {
   const [dragActive, setDragActive] = useState(false);
@@ -27,7 +27,7 @@ export function useFileUpload() {
   const handleFile = useCallback(
     async (file: File) => {
       if (!file.name.match(/\.(xlsx|xls)$/)) {
-        setError("Please upload an Excel file (.xlsx or .xls)");
+        setError('Please upload an Excel file (.xlsx or .xls)');
         return;
       }
 
@@ -37,7 +37,7 @@ export function useFileUpload() {
 
       const userMessage: Message = {
         id: `msg-${Date.now()}`,
-        role: "user",
+        role: 'user',
         content: `Uploaded file: ${file.name}`,
         timestamp: Date.now(),
       };
@@ -48,7 +48,7 @@ export function useFileUpload() {
 
         const assistantMessage: Message = {
           id: `msg-${Date.now() + 1}`,
-          role: "assistant",
+          role: 'assistant',
           content: response.response,
           chartUrl: response.chart_url,
           chartId: response.chart_id,
@@ -69,7 +69,7 @@ export function useFileUpload() {
           setStylePreference(response.color_scheme);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to upload file");
+        setError(err instanceof Error ? err.message : 'Failed to upload file');
         setUploadedFileName(null);
       } finally {
         setIsLoading(false);
@@ -81,9 +81,9 @@ export function useFileUpload() {
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
+    if (e.type === 'dragenter' || e.type === 'dragover') {
       setDragActive(true);
-    } else if (e.type === "dragleave") {
+    } else if (e.type === 'dragleave') {
       setDragActive(false);
     }
   };

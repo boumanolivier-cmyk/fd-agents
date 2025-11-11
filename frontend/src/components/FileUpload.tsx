@@ -2,10 +2,10 @@
  * File upload component - FD-inspired clean interface
  * Refactored into smaller components for better maintainability
  */
-import { Box } from "@mui/material";
-import DropZone from "./upload/DropZone";
-import UploadStatus from "./upload/UploadStatus";
-import { useFileUpload } from "../hooks/useFileUpload";
+import { Box } from '@mui/material';
+import DropZone from './upload/DropZone';
+import UploadStatus from './upload/UploadStatus';
+import { useFileUpload } from '../hooks/useFileUpload';
 
 export default function FileUpload() {
   const {

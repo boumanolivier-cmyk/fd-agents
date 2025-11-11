@@ -1,8 +1,8 @@
 /**
  * Upload Status component - Shows success or error messages
  */
-import { Alert } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Alert } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 interface UploadStatusProps {
   uploadedFileName: string | null;
@@ -28,17 +28,12 @@ export default function UploadStatus({
           onClose={onClearFileName}
           sx={{ mt: 2, borderRadius: 1 }}
         >
-          Successfully uploaded and processed:{" "}
-          <strong>{uploadedFileName}</strong>
+          Successfully uploaded and processed: <strong>{uploadedFileName}</strong>
         </Alert>
       )}
 
       {error && (
-        <Alert
-          severity="error"
-          onClose={onClearError}
-          sx={{ mt: 2, borderRadius: 1 }}
-        >
+        <Alert severity="error" onClose={onClearError} sx={{ mt: 2, borderRadius: 1 }}>
           {error}
         </Alert>
       )}

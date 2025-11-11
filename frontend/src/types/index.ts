@@ -4,7 +4,7 @@
 
 export interface Message {
   id: string;
-  role: "user" | "assistant";
+  role: 'user' | 'assistant';
   content: string;
   chartUrl?: string;
   chartId?: string;
@@ -31,10 +31,10 @@ export interface UploadResponse {
 }
 
 export interface StylePreference {
-  style: "fd" | "bnr";
+  style: 'fd' | 'bnr';
 }
 
-export type ChartStyle = "fd" | "bnr";
+export type ChartStyle = 'fd' | 'bnr';
 
 export interface ChartData {
   id: string;

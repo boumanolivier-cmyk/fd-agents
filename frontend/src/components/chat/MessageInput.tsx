@@ -1,8 +1,8 @@
 /**
  * Message Input component - Text input with send button
  */
-import { Box, TextField, IconButton } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import { Box, TextField, IconButton } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 interface MessageInputProps {
   value: string;
@@ -11,14 +11,9 @@ interface MessageInputProps {
   disabled: boolean;
 }
 
-export default function MessageInput({
-  value,
-  onChange,
-  onSend,
-  disabled,
-}: MessageInputProps) {
+export default function MessageInput({ value, onChange, onSend, disabled }: MessageInputProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       onSend();
     }
@@ -28,12 +23,12 @@ export default function MessageInput({
     <Box
       sx={{
         p: 2,
-        borderTop: "1px solid",
-        borderColor: "divider",
-        bgcolor: "#fafafa",
+        borderTop: '1px solid',
+        borderColor: 'divider',
+        bgcolor: '#fafafa',
       }}
     >
-      <Box sx={{ display: "flex", gap: 1 }}>
+      <Box sx={{ display: 'flex', gap: 1 }}>
         <TextField
           fullWidth
           multiline
@@ -46,8 +41,8 @@ export default function MessageInput({
           variant="outlined"
           size="small"
           sx={{
-            "& .MuiOutlinedInput-root": {
-              bgcolor: "#ffffff",
+            '& .MuiOutlinedInput-root': {
+              bgcolor: '#ffffff',
               borderRadius: 2,
             },
           }}
@@ -57,14 +52,14 @@ export default function MessageInput({
           onClick={onSend}
           disabled={!value.trim() || disabled}
           sx={{
-            bgcolor: "primary.main",
-            color: "#ffffff",
-            "&:hover": {
-              bgcolor: "primary.dark",
+            bgcolor: 'primary.main',
+            color: '#ffffff',
+            '&:hover': {
+              bgcolor: 'primary.dark',
             },
-            "&.Mui-disabled": {
-              bgcolor: "#e0e0e0",
-              color: "#ffffff",
+            '&.Mui-disabled': {
+              bgcolor: '#e0e0e0',
+              color: '#ffffff',
             },
           }}
         >

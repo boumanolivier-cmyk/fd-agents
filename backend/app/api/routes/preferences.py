@@ -1,5 +1,7 @@
 """User preferences endpoint routes"""
+
 import logging
+
 from fastapi import APIRouter, HTTPException
 
 from app.models.schemas import StylePreference

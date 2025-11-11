@@ -1,8 +1,8 @@
 /**
  * Chat Header component - Shows conversation status and new conversation button
  */
-import { Box, Typography, Button, Tooltip } from "@mui/material";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import { Box, Typography, Button, Tooltip } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 interface ChatHeaderProps {
   hasMessages: boolean;
@@ -10,11 +10,7 @@ interface ChatHeaderProps {
   disabled: boolean;
 }
 
-export default function ChatHeader({
-  hasMessages,
-  onNewConversation,
-  disabled,
-}: ChatHeaderProps) {
+export default function ChatHeader({ hasMessages, onNewConversation, disabled }: ChatHeaderProps) {
   if (!hasMessages) {
     return null;
   }
@@ -24,12 +20,12 @@ export default function ChatHeader({
       sx={{
         px: 3,
         py: 2,
-        borderBottom: "1px solid",
-        borderColor: "divider",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        bgcolor: "#fafafa",
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        bgcolor: '#fafafa',
       }}
     >
       <Typography variant="body2" color="text.secondary" fontWeight={500}>
@@ -42,10 +38,10 @@ export default function ChatHeader({
           onClick={onNewConversation}
           disabled={disabled}
           sx={{
-            textTransform: "none",
-            color: "text.secondary",
-            "&:hover": {
-              bgcolor: "rgba(0, 0, 0, 0.04)",
+            textTransform: 'none',
+            color: 'text.secondary',
+            '&:hover': {
+              bgcolor: 'rgba(0, 0, 0, 0.04)',
             },
           }}
         >

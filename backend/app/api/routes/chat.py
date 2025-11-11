@@ -1,9 +1,11 @@
 """Chat endpoint routes"""
+
 import logging
+
 from fastapi import APIRouter, HTTPException
 
-from app.models.schemas import ChatRequest, ChatResponse
 from app.agents.chart_agent import analyze_chart_request
+from app.models.schemas import ChatRequest, ChatResponse
 from app.services.chart_generator import chart_generator
 from app.services.persistence import persistence
 
@@ -15,40 +17,39 @@ logger = logging.getLogger(__name__)
 async def chat(request: ChatRequest):
     """
     Process a chat message and potentially generate a chart
-    
+
     Args:
         request: ChatRequest with message and session_id
-    
+
     Returns:
         ChatResponse with AI response and optional chart URL
     """
     try:
         # Update session last used
         persistence.update_last_used(request.session_id)
-        
+
         # Get style preference from session (user can still manually override)
         session_style = persistence.get_style_preference(request.session_id)
-        
+
         # Get conversation history for context
         conversation_history = persistence.get_chat_history(request.session_id)
-        
+
         # Add user message to history
-        persistence.add_to_chat_history(
-            request.session_id, 
-            "user", 
-            request.message
-        )
-        
+        persistence.add_to_chat_history(request.session_id, "user", request.message)
+
         # Analyze the request with the AI agent (with full conversation context)
         chart_data = await analyze_chart_request(request.message, conversation_history)
-        
+
         # Log raw ChartData from agent for troubleshooting
         logger.debug(
             "Agent returned ChartData: is_valid=%s, chart_type=%s, x_labels=%s, y_values=%s, reason=%s",
-            chart_data.is_valid, chart_data.chart_type, chart_data.x_labels, 
-            chart_data.y_values, chart_data.reason
+            chart_data.is_valid,
+            chart_data.chart_type,
+            chart_data.x_labels,
+            chart_data.y_values,
+            chart_data.reason,
         )
-        
+
         # Normalise agent output:
         # - If chart_type missing but x_labels+y_values present, infer sensible default
         # - Coerce y_values to floats
@@ -72,26 +73,24 @@ async def chat(request: ChatRequest):
                 logger.warning("Failed to coerce y_values to floats: %s", e)
                 error_msg = "I couldn't interpret the numeric values for the chart. Please provide numbers for the y-axis."
                 persistence.add_to_chat_history(request.session_id, "assistant", error_msg)
-                return ChatResponse(response=error_msg, chart_url=None, chart_id=None, color_scheme=None)
-        
+                return ChatResponse(
+                    response=error_msg, chart_url=None, chart_id=None, color_scheme=None
+                )
+
         # If not a valid chart request, return refusal
         if not chart_data.is_valid:
-            response_text = chart_data.reason or "I can only help you create bar or line charts. Please ask me to make a chart with some data!"
-            
+            response_text = (
+                chart_data.reason
+                or "I can only help you create bar or line charts. Please ask me to make a chart with some data!"
+            )
+
             # Add assistant response to history
-            persistence.add_to_chat_history(
-                request.session_id,
-                "assistant",
-                response_text
-            )
-            
+            persistence.add_to_chat_history(request.session_id, "assistant", response_text)
+
             return ChatResponse(
-                response=response_text,
-                chart_url=None,
-                chart_id=None,
-                color_scheme=None
+                response=response_text, chart_url=None, chart_id=None, color_scheme=None
             )
-        
+
         # If valid and we have data, generate chart (use inferred/coerced values)
         if chart_type and x_labels and coerced_y:
             try:
@@ -101,17 +100,17 @@ async def chat(request: ChatRequest):
                 # 3. Persistent memory (from previous agent decisions)
                 # 4. Default to 'fd'
                 style = (
-                    chart_data.color_scheme or  # Agent's decision
-                    session_style or  # User's manual selection
-                    persistence.get_persistent_color_scheme() or  # Previous agent decision
-                    "fd"  # Default
+                    chart_data.color_scheme  # Agent's decision
+                    or session_style  # User's manual selection
+                    or persistence.get_persistent_color_scheme()  # Previous agent decision
+                    or "fd"  # Default
                 )
-                
+
                 # If agent decided on a color scheme, persist it for future requests
                 if chart_data.color_scheme:
                     persistence.set_persistent_color_scheme(chart_data.color_scheme)
                     logger.info("Agent selected color scheme: %s", chart_data.color_scheme)
-                
+
                 result = chart_generator.generate_both_formats(
                     chart_type=chart_type,
                     x_labels=x_labels,
@@ -119,12 +118,12 @@ async def chat(request: ChatRequest):
                     title=chart_data.title or "Chart",
                     x_label=chart_data.x_label,
                     y_label=chart_data.y_label,
-                    style=style
+                    style=style,
                 )
-                
+
                 chart_id = result["png"][0]
                 response_text = f"I've created a {chart_type} chart for you!"
-                
+
                 # Add assistant response to history with chart metadata
                 persistence.add_to_chat_history(
                     request.session_id,
@@ -135,51 +134,37 @@ async def chat(request: ChatRequest):
                         "chart_type": chart_type,
                         "x_labels": x_labels,
                         "y_values": coerced_y,
-                        "title": chart_data.title
-                    }
+                        "title": chart_data.title,
+                    },
                 )
-                
+
                 return ChatResponse(
                     response=response_text,
                     chart_url=f"/charts/{chart_id}.png",
                     chart_id=chart_id,
-                    color_scheme=style
+                    color_scheme=style,
                 )
             except Exception as e:
                 error_text = f"I understood your request, but encountered an error generating the chart: {str(e)}"
                 logger.error("Chart generation failed: %s", e, exc_info=True)
-                
+
                 # Add error to history
-                persistence.add_to_chat_history(
-                    request.session_id,
-                    "assistant",
-                    error_text
-                )
-                
+                persistence.add_to_chat_history(request.session_id, "assistant", error_text)
+
                 return ChatResponse(
-                    response=error_text,
-                    chart_url=None,
-                    chart_id=None,
-                    color_scheme=None
+                    response=error_text, chart_url=None, chart_id=None, color_scheme=None
                 )
         else:
             # Graceful fallback if something still missing
             clarification_text = "I understood you want a chart, but I need more information about the data. Could you provide the specific values you want to chart?"
-            
+
             # Add clarification request to history
-            persistence.add_to_chat_history(
-                request.session_id,
-                "assistant",
-                clarification_text
-            )
-            
+            persistence.add_to_chat_history(request.session_id, "assistant", clarification_text)
+
             return ChatResponse(
-                response=clarification_text,
-                chart_url=None,
-                chart_id=None,
-                color_scheme=None
+                response=clarification_text, chart_url=None, chart_id=None, color_scheme=None
             )
-    
+
     except Exception as e:
         logger.error("Unexpected error in chat endpoint: %s", e, exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))

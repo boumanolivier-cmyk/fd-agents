@@ -1,6 +1,36 @@
-# 📊 AI Chart Generator
+# 📊 AI Chart Generator / AI Grafiekgenerator
 
-An intelligent chart generation tool powered by OpenAI that creates beautiful bar and line charts from text or Excel input. Built with FastAPI, React, and TypeScript.
+## 🚀 TL;DR
+
+**Quick Start:**
+```bash
+# 1. Add your OpenAI API key
+cp backend/.env.example backend/.env
+# Edit backend/.env and add: OPENAI_API_KEY=sk-your-key-here
+# If you do not add an API key the APP will use a free fallback model
+
+# 2. Start the application
+docker compose up --build
+
+# 3. Run all tests
+docker compose exec backend python tests/run_evals.py
+```
+
+**Access:** Frontend at http://localhost:5173 | Backend at http://localhost:8000
+
+---
+
+## 🎯 Acceptance Criteria / Acceptatiecriteria
+
+This project fulfills all of the following requirements:
+
+**✅ 1. CLI/Web Interface** - Web applicatie met chat interface  
+**✅ 2. Alleen Staaf- of Lijngrafieken** - Weigert andere grafiektypen (pie, scatter, etc.)  
+**✅ 3. Vrije Tekst of Excel Input** - Ondersteunt beide invoermethoden  
+**✅ 4. PNG/SVG Output** - Beide formaten downloadbaar  
+**✅ 5. Taakweigering** - Weigert beleefd niet-grafiek verzoeken  
+**✅ 6. Memory** - Sessie + persist (FD/BNR voorkeur wordt onthouden)  
+**✅ 7. Twee Evaluaties** - eval_refusal.py + eval_chart_data.py (+ bonus eval_color_scheme.py)
 
 ## ✨ Features
 
@@ -143,7 +173,20 @@ User: "What's the weather today?"
 
 ## 🧪 Testing
 
-### Run Backend Tests
+### Run All Tests
+```bash
+cd backend
+
+# Run complete evaluation suite
+python tests/run_evals.py
+```
+
+This runs:
+1. **Eval 1: Request Validation** (`eval_refusal.py`) - Tests accept/refuse logic
+2. **Eval 2: Data Extraction** (`eval_chart_data.py`) - Tests data accuracy
+3. **Eval 3: Color Scheme Selection** (`eval_color_scheme.py`) - Tests FD/BNR detection
+
+### Run Individual Tests
 ```bash
 cd backend
 
@@ -152,7 +195,18 @@ python tests/eval_refusal.py
 
 # Test chart data extraction accuracy
 python tests/eval_chart_data.py
+
+# Test color scheme selection
+python tests/eval_color_scheme.py
 ```
+
+### Docker Testing
+```bash
+# Run tests in Docker container
+docker compose exec backend python tests/run_evals.py
+```
+
+See `backend/tests/README.md` for detailed test documentation.
 
 ### Manual Testing Checklist
 - [ ] Chat: Create bar chart with text input
@@ -308,11 +362,15 @@ source venv/bin/activate
 # Run with auto-reload
 uvicorn app.main:app --reload --port 8000
 
-# Format code
-black app/
+# Format code (Black + isort)
+black app/ tests/ --line-length 100
+isort app/ tests/ --profile black
 
-# Type checking
-mypy app/
+# Install dev dependencies (includes black, isort, flake8)
+pip install -r requirements-dev.txt
+
+# Run tests
+python tests/run_evals.py
 ```
 
 ### Frontend Development
@@ -328,8 +386,35 @@ npm run build
 # Preview production build
 npm run preview
 
-# Lint
+# Lint code
 npm run lint
+
+# Format code (Prettier)
+npm run format
+
+# Check formatting without changes
+npm run format:check
+```
+
+### Code Quality
+
+**Backend (Python):**
+- Formatted with [Black](https://github.com/psf/black) (line length: 100)
+- Imports sorted with [isort](https://pycqa.github.io/isort/)
+- Configuration in `pyproject.toml`
+
+**Frontend (TypeScript/React):**
+- Formatted with [Prettier](https://prettier.io/)
+- Configuration in `.prettierrc`
+- Linted with [ESLint](https://eslint.org/)
+
+**Pre-commit formatting:**
+```bash
+# Backend
+cd backend && black . && isort .
+
+# Frontend  
+cd frontend && npm run format
 ```
 
 ## 🎯 Design Decisions
@@ -358,12 +443,84 @@ MIT License - Feel free to use this project for learning and development.
 - Uses OpenAI's GPT-4 for intelligent chart request processing
 - Color schemes based on FD and BNR branding guidelines
 
-## 📞 Support
+## � Production Deployment
+
+### Prerequisites
+- Server with Docker and Docker Compose
+- Domain name (optional)
+- Valid OpenAI API key
+
+### Deployment Steps
+
+1. **Clone repository and configure:**
+```bash
+git clone <repository-url>
+cd fd-agents
+cp backend/.env.example backend/.env
+# Edit backend/.env with production OPENAI_API_KEY
+```
+
+2. **Build and start services:**
+```bash
+docker compose up -d --build
+```
+
+3. **Verify deployment:**
+```bash
+docker compose ps
+docker compose logs -f
+```
+
+4. **Access application:**
+- Frontend: http://your-server-ip:80
+- Backend API: http://your-server-ip:8000
+- API Docs: http://your-server-ip:8000/docs
+
+### Production Configuration
+
+**Environment Variables:**
+- Set `OPENAI_API_KEY` in `backend/.env`
+- Configure `ALLOWED_ORIGINS` in `backend/app/config/settings.py` for CORS
+- Update nginx.conf for custom domains
+
+**Monitoring:**
+```bash
+# View logs
+docker compose logs -f backend
+docker compose logs -f frontend
+
+# Check container health
+docker compose ps
+```
+
+**Backup:**
+```bash
+# Backup session data
+tar -czf backup-$(date +%Y%m%d).tar.gz backend/data backend/charts
+```
+
+### Security Considerations
+- Never commit `.env` files with real API keys
+- Use environment-specific configurations
+- Enable HTTPS with reverse proxy (nginx/traefik)
+- Regularly update dependencies
+- Monitor API usage and set OpenAI spending limits
+
+## �📞 Support
 
 For issues or questions:
 1. Check the API documentation at `/docs`
-2. Review the test files in `backend/tests/`
+2. Review test files in `backend/tests/`
 3. Ensure your OpenAI API key is valid and has credits
+4. Check Docker logs: `docker compose logs -f`
+
+## 📚 Additional Resources
+
+- **Backend Documentation:** `backend/README.md`
+- **Frontend Documentation:** `frontend/README.md`
+- **Test Documentation:** `backend/tests/README.md`
+- **API Documentation:** http://localhost:8000/docs (when running)
+- **Docker Guide:** See docker-compose.yml for service configuration
 
 ---
 

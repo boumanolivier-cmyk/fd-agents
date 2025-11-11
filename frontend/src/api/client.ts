@@ -1,19 +1,19 @@
 /**
  * API client for communicating with the FastAPI backend
  */
-import axios from "axios";
+import axios from 'axios';
 import type {
   ChatRequest,
   ChatResponse,
   UploadResponse,
   StylePreference,
   ChartStyle,
-} from "../types";
+} from '../types';
 
 const api = axios.create({
-  baseURL: "", // Using Vite proxy, so we don't need a base URL
+  baseURL: '', // Using Vite proxy, so we don't need a base URL
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -24,7 +24,7 @@ export const sendChatMessage = async (
   message: string,
   sessionId: string
 ): Promise<ChatResponse> => {
-  const response = await api.post<ChatResponse>("/api/chat", {
+  const response = await api.post<ChatResponse>('/api/chat', {
     message,
     session_id: sessionId,
   } as ChatRequest);
@@ -35,17 +35,14 @@ export const sendChatMessage = async (
 /**
  * Upload an Excel file
  */
-export const uploadExcelFile = async (
-  file: File,
-  sessionId: string
-): Promise<UploadResponse> => {
+export const uploadExcelFile = async (file: File, sessionId: string): Promise<UploadResponse> => {
   const formData = new FormData();
-  formData.append("file", file);
-  formData.append("session_id", sessionId);
+  formData.append('file', file);
+  formData.append('session_id', sessionId);
 
-  const response = await api.post<UploadResponse>("/api/upload", formData, {
+  const response = await api.post<UploadResponse>('/api/upload', formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 
@@ -55,22 +52,15 @@ export const uploadExcelFile = async (
 /**
  * Get style preference for a session
  */
-export const getStylePreference = async (
-  sessionId: string
-): Promise<ChartStyle> => {
-  const response = await api.get<StylePreference>(
-    `/api/preferences/${sessionId}`
-  );
+export const getStylePreference = async (sessionId: string): Promise<ChartStyle> => {
+  const response = await api.get<StylePreference>(`/api/preferences/${sessionId}`);
   return response.data.style;
 };
 
 /**
  * Set style preference for a session
  */
-export const setStylePreference = async (
-  sessionId: string,
-  style: ChartStyle
-): Promise<void> => {
+export const setStylePreference = async (sessionId: string, style: ChartStyle): Promise<void> => {
   await api.post(`/api/preferences/${sessionId}`, {
     style,
   } as StylePreference);
@@ -86,10 +76,7 @@ export const clearChatHistory = async (sessionId: string): Promise<void> => {
 /**
  * Get chart URL for display
  */
-export const getChartUrl = (
-  chartId: string,
-  format: "png" | "svg" = "png"
-): string => {
+export const getChartUrl = (chartId: string, format: 'png' | 'svg' = 'png'): string => {
   return `/charts/${chartId}.${format}`;
 };
 

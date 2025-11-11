@@ -1,18 +1,11 @@
 /**
  * Chart display component - FD-inspired professional presentation
  */
-import { useAtomValue } from "jotai";
-import {
-  Box,
-  Typography,
-  Button,
-  ButtonGroup,
-  Paper,
-  Divider,
-} from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import { currentChartAtom } from "../state/atoms";
+import { useAtomValue } from 'jotai';
+import { Box, Typography, Button, ButtonGroup, Paper, Divider } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import { currentChartAtom } from '../state/atoms';
 
 export default function ChartDisplay() {
   const currentChart = useAtomValue(currentChartAtom);
@@ -21,41 +14,30 @@ export default function ChartDisplay() {
     return (
       <Box
         sx={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
           p: 4,
         }}
       >
-        <BarChartIcon
-          sx={{ fontSize: 64, color: "text.disabled", mb: 2, opacity: 0.3 }}
-        />
-        <Typography
-          variant="h6"
-          color="text.secondary"
-          gutterBottom
-          fontWeight={600}
-        >
+        <BarChartIcon sx={{ fontSize: 64, color: 'text.disabled', mb: 2, opacity: 0.3 }} />
+        <Typography variant="h6" color="text.secondary" gutterBottom fontWeight={600}>
           No Chart Generated Yet
         </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ maxWidth: 400 }}
-        >
-          Start by sending a chat message or uploading an Excel file. Your chart
-          will appear here once generated.
+        <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 400 }}>
+          Start by sending a chat message or uploading an Excel file. Your chart will appear here
+          once generated.
         </Typography>
       </Box>
     );
   }
 
-  const handleDownload = (format: "png" | "svg") => {
+  const handleDownload = (format: 'png' | 'svg') => {
     const downloadUrl = currentChart.url.replace(/\.(png|svg)$/, `.${format}`);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = downloadUrl;
     link.download = `chart-${currentChart.id}.${format}`;
     document.body.appendChild(link);
@@ -67,13 +49,13 @@ export default function ChartDisplay() {
     <Paper
       elevation={0}
       sx={{
-        border: "1px solid",
-        borderColor: "divider",
+        border: '1px solid',
+        borderColor: 'divider',
         borderRadius: 2,
-        overflow: "hidden",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
+        overflow: 'hidden',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       {/* Header */}
@@ -81,10 +63,10 @@ export default function ChartDisplay() {
         sx={{
           px: 3,
           py: 2,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          bgcolor: "#ffffff",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          bgcolor: '#ffffff',
         }}
       >
         <Box>
@@ -98,15 +80,15 @@ export default function ChartDisplay() {
         <ButtonGroup variant="outlined" size="small">
           <Button
             startIcon={<DownloadIcon />}
-            onClick={() => handleDownload("png")}
-            sx={{ textTransform: "none" }}
+            onClick={() => handleDownload('png')}
+            sx={{ textTransform: 'none' }}
           >
             PNG
           </Button>
           <Button
             startIcon={<DownloadIcon />}
-            onClick={() => handleDownload("svg")}
-            sx={{ textTransform: "none" }}
+            onClick={() => handleDownload('svg')}
+            sx={{ textTransform: 'none' }}
           >
             SVG
           </Button>
@@ -119,22 +101,22 @@ export default function ChartDisplay() {
       <Box
         sx={{
           flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          bgcolor: "#fafafa",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          bgcolor: '#fafafa',
           p: 3,
-          overflow: "auto",
+          overflow: 'auto',
         }}
       >
         <img
           src={currentChart.url}
           alt="Generated chart"
           style={{
-            maxWidth: "100%",
-            maxHeight: "100%",
-            height: "auto",
-            objectFit: "contain",
+            maxWidth: '100%',
+            maxHeight: '100%',
+            height: 'auto',
+            objectFit: 'contain',
           }}
         />
       </Box>

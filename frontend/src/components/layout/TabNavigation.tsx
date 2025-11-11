@@ -1,25 +1,22 @@
 /**
  * Tab Navigation component
  */
-import { Box, Tabs, Tab } from "@mui/material";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { Box, Tabs, Tab } from '@mui/material';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 interface TabNavigationProps {
   activeTab: number;
   onTabChange: (tab: number) => void;
 }
 
-export default function TabNavigation({
-  activeTab,
-  onTabChange,
-}: TabNavigationProps) {
+export default function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
     <Box
       sx={{
-        borderBottom: "1px solid",
-        borderColor: "divider",
-        bgcolor: "#fafafa",
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        bgcolor: '#fafafa',
       }}
     >
       <Tabs
@@ -27,7 +24,7 @@ export default function TabNavigation({
         onChange={(_, v) => onTabChange(v)}
         sx={{
           minHeight: 48,
-          "& .MuiTabs-indicator": {
+          '& .MuiTabs-indicator': {
             height: 3,
           },
         }}

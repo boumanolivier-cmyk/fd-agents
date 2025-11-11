@@ -1,8 +1,8 @@
 /**
  * Custom hook for chat message handling
  */
-import { useState } from "react";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useState } from 'react';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   sessionIdAtom,
   chatHistoryAtom,
@@ -10,12 +10,12 @@ import {
   currentChartAtom,
   errorAtom,
   stylePreferenceAtom,
-} from "../state/atoms";
-import { sendChatMessage, clearChatHistory } from "../api/client";
-import type { Message } from "../types";
+} from '../state/atoms';
+import { sendChatMessage, clearChatHistory } from '../api/client';
+import type { Message } from '../types';
 
 export function useChatMessages() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [chatHistory, setChatHistory] = useAtom(chatHistoryAtom);
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [error, setError] = useAtom(errorAtom);
@@ -29,11 +29,9 @@ export function useChatMessages() {
       setChatHistory([]);
       setCurrentChart(null);
       setError(null);
-      setInput("");
+      setInput('');
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to clear conversation"
-      );
+      setError(err instanceof Error ? err.message : 'Failed to clear conversation');
     }
   };
 
@@ -42,13 +40,13 @@ export function useChatMessages() {
 
     const userMessage: Message = {
       id: `msg-${Date.now()}`,
-      role: "user",
+      role: 'user',
       content: input,
       timestamp: Date.now(),
     };
 
     setChatHistory((prev) => [...prev, userMessage]);
-    setInput("");
+    setInput('');
     setIsLoading(true);
     setError(null);
 
@@ -57,7 +55,7 @@ export function useChatMessages() {
 
       const assistantMessage: Message = {
         id: `msg-${Date.now()}`,
-        role: "assistant",
+        role: 'assistant',
         content: response.response,
         chartUrl: response.chart_url,
         chartId: response.chart_id,
@@ -78,7 +76,7 @@ export function useChatMessages() {
         setStylePreference(response.color_scheme);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to send message");
+      setError(err instanceof Error ? err.message : 'Failed to send message');
     } finally {
       setIsLoading(false);
     }
