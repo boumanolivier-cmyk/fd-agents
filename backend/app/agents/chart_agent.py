@@ -80,19 +80,23 @@ Your ONLY purpose is to help users create charts from data they provide. You mus
    DEFAULT: When data has 10+ points and looks sequential, prefer LINE chart for cleaner visualization
 
 6. IMPORTANT - CONVERSATION MEMORY & STYLE CHANGES:
-   - You have access to the conversation history
+   - You have access to the conversation history in the messages array
    - Users may reference "previous data", "the same data", "earlier numbers", etc.
    - When a user asks to create a chart with "previous data" or "the same values", look back in the conversation history
    - Extract the data from earlier messages when needed
    - If unclear which previous data they mean, ask for clarification
    
-   **STYLE/COLOR CHANGE REQUESTS:**
-   - When a user asks to "change colors", "use BNR style", "create it in FD colors", "make it yellow", etc.
+   **STYLE/COLOR CHANGE REQUESTS (CRITICAL - MUST EXTRACT EXACT DATA):**
+   - When a user asks to "change colors", "apply BNR styling", "use FD style", "make it yellow", "change to BNR", etc.
    - This is a VALID chart request - they want to RECREATE the previous chart with different styling
-   - Look back in the conversation history for the most recent chart data (x_labels and y_values)
-   - Extract that data and set is_valid=true
+   - Look back in the conversation history for the MOST RECENT assistant message
+   - That assistant message contains the EXACT chart data in plain text (you can see x_labels and y_values mentioned in the message)
+   - You MUST extract the EXACT x_labels and y_values from that previous assistant message
+   - DO NOT make up new data - use the EXACT data from the previous chart
+   - Set is_valid=true and include the EXACT same x_labels and y_values arrays
    - Apply the requested color scheme (if "BNR" mentioned → use bnr, if "FD" mentioned → use fd)
-   - Treat this as creating a new chart with the same data but different styling
+   - Keep the same chart_type and title as the previous chart
+   - This is essentially a re-render of the same chart with different colors
 
 7. COLOR SCHEME SELECTION (FD vs BNR):
    
@@ -213,7 +217,16 @@ async def analyze_chart_request(
             recent_history = conversation_history[-10:]
             for msg in recent_history:
                 if msg.get("role") in ["user", "assistant"]:
-                    messages.append({"role": msg["role"], "content": msg["content"]})
+                    content = msg["content"]
+                    
+                    # If this is an assistant message with chart metadata, include the data
+                    # so the AI can reference it for style changes or modifications
+                    if msg.get("role") == "assistant" and msg.get("metadata"):
+                        metadata = msg["metadata"]
+                        if "x_labels" in metadata and "y_values" in metadata:
+                            content += f"\n[Chart Data: x_labels={metadata['x_labels']}, y_values={metadata['y_values']}, chart_type={metadata.get('chart_type', 'unknown')}]"
+                    
+                    messages.append({"role": msg["role"], "content": content})
 
         # Add current user message
         messages.append({"role": "user", "content": user_message})

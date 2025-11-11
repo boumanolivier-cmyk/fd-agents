@@ -5,18 +5,22 @@ import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import type { Message, ChartStyle } from '../types';
 
-// Generate or retrieve session ID from localStorage
-const generateSessionId = () => {
-  const stored = localStorage.getItem('chart-app-session-id');
-  if (stored) return stored;
-
+// Generate a new session ID
+export const generateNewSessionId = () => {
   const newId = `session-${Date.now()}-${Math.random().toString(36).substring(7)}`;
   localStorage.setItem('chart-app-session-id', newId);
   return newId;
 };
 
+// Get or generate initial session ID from localStorage
+const getInitialSessionId = () => {
+  const stored = localStorage.getItem('chart-app-session-id');
+  if (stored) return stored;
+  return generateNewSessionId();
+};
+
 // Session ID atom (persisted in localStorage)
-export const sessionIdAtom = atom<string>(generateSessionId());
+export const sessionIdAtom = atom<string>(getInitialSessionId());
 
 // Chat history atom
 export const chatHistoryAtom = atom<Message[]>([]);

@@ -183,6 +183,18 @@ class ChartGenerator:
 
         return fig, ax
 
+    def _cleanup_old_charts(self) -> None:
+        """Delete all existing chart files to keep only the latest"""
+        try:
+            if self.charts_dir.exists():
+                for file in self.charts_dir.glob("*"):
+                    if file.is_file() and file.suffix in [".png", ".svg"]:
+                        file.unlink()
+                        logger.debug("Deleted old chart file: %s", file.name)
+            logger.info("Cleaned up old chart files")
+        except Exception as e:
+            logger.warning("Failed to cleanup old charts: %s", e)
+
     def generate_chart(
         self,
         chart_type: Literal["bar", "line"],
@@ -253,6 +265,9 @@ class ChartGenerator:
         Returns:
             Dict with 'png' and 'svg' keys containing (chart_id, filepath) tuples
         """
+        # Clean up old charts before generating new ones
+        self._cleanup_old_charts()
+
         # Generate PNG using the main method
         png_id, png_path = self.generate_chart(
             chart_type, x_labels, y_values, title, x_label, y_label, style, "png"

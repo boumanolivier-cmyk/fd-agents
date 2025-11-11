@@ -2,7 +2,7 @@
  * Custom hook for chat message handling
  */
 import { useState } from 'react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import {
   sessionIdAtom,
   chatHistoryAtom,
@@ -10,6 +10,7 @@ import {
   currentChartAtom,
   errorAtom,
   stylePreferenceAtom,
+  generateNewSessionId,
 } from '../state/atoms';
 import { sendChatMessage, clearChatHistory } from '../api/client';
 import type { Message } from '../types';
@@ -19,13 +20,20 @@ export function useChatMessages() {
   const [chatHistory, setChatHistory] = useAtom(chatHistoryAtom);
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [error, setError] = useAtom(errorAtom);
-  const sessionId = useAtomValue(sessionIdAtom);
+  const [sessionId, setSessionId] = useAtom(sessionIdAtom);
   const setCurrentChart = useSetAtom(currentChartAtom);
   const setStylePreference = useSetAtom(stylePreferenceAtom);
 
   const handleNewConversation = async () => {
     try {
+      // Clear the old session from backend
       await clearChatHistory(sessionId);
+      
+      // Generate a new session ID
+      const newSessionId = generateNewSessionId();
+      setSessionId(newSessionId);
+      
+      // Clear frontend state
       setChatHistory([]);
       setCurrentChart(null);
       setError(null);
