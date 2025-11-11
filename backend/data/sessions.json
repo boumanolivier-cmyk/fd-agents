@@ -617,54 +617,22 @@
   },
   "session-1762811099195-iv3x1l": {
     "session_id": "session-1762811099195-iv3x1l",
-    "style": "bnr",
+    "style": "fd",
     "created_at": "2025-11-10T21:45:03.516884",
-    "last_used": "2025-11-10T23:18:48.032345",
+    "last_used": "2025-11-11T19:49:44.079409",
     "chat_history": [
       {
         "role": "user",
-        "content": "Make a line chart showing monthly sales trend for 100, 140, 130, 160, 180, 200 from January to June",
-        "timestamp": "2025-11-10T23:16:57.065179",
-        "metadata": null
-      },
-      {
-        "role": "assistant",
-        "content": "I've created a line chart for you!",
-        "timestamp": "2025-11-10T23:16:59.619525",
-        "metadata": {
-          "chart_id": "d38bd382-f1ca-4364-8278-b3310edf094a",
-          "chart_type": "line",
-          "x_labels": [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June"
-          ],
-          "y_values": [
-            100.0,
-            140.0,
-            130.0,
-            160.0,
-            180.0,
-            200.0
-          ],
-          "title": "Monthly Sales Trend from January to June"
-        }
-      },
-      {
-        "role": "user",
         "content": "Uploaded Excel file: fdmg_categorical_example.xlsx",
-        "timestamp": "2025-11-10T23:18:40.891531",
+        "timestamp": "2025-11-11T19:47:10.387158",
         "metadata": null
       },
       {
         "role": "assistant",
         "content": "I've created a chart from your Excel file!",
-        "timestamp": "2025-11-10T23:18:41.515265",
+        "timestamp": "2025-11-11T19:47:11.167599",
         "metadata": {
-          "chart_id": "7c123178-3935-4a24-b7fa-48fb817f1e03",
+          "chart_id": "128af8d1-43fc-4671-a06b-da71f07b8114",
           "chart_type": "bar",
           "x_labels": [
             "Online",
@@ -682,6 +650,110 @@
           ],
           "source": "excel_auto_detect"
         }
+      },
+      {
+        "role": "user",
+        "content": "Uploaded Excel file: fdmg_timeseries_example.xlsx",
+        "timestamp": "2025-11-11T19:47:15.239022",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a chart from your Excel file!",
+        "timestamp": "2025-11-11T19:47:16.026545",
+        "metadata": {
+          "chart_id": "432babeb-5a2c-453d-a638-c7283b7cf912",
+          "chart_type": "line",
+          "x_labels": [
+            "2025-01-01",
+            "2025-02-01",
+            "2025-03-01",
+            "2025-04-01",
+            "2025-05-01",
+            "2025-06-01",
+            "2025-07-01",
+            "2025-08-01",
+            "2025-09-01",
+            "2025-10-01",
+            "2025-11-01",
+            "2025-12-01",
+            "2026-01-01",
+            "2026-02-01",
+            "2026-03-01",
+            "2026-04-01",
+            "2026-05-01",
+            "2026-06-01",
+            "2026-07-01",
+            "2026-08-01",
+            "2026-09-01",
+            "2026-10-01",
+            "2026-11-01",
+            "2026-12-01",
+            "2027-01-01",
+            "2027-02-01",
+            "2027-03-01",
+            "2027-04-01",
+            "2027-05-01",
+            "2027-06-01",
+            "2027-07-01",
+            "2027-08-01",
+            "2027-09-01",
+            "2027-10-01",
+            "2027-11-01",
+            "2027-12-01"
+          ],
+          "y_values": [
+            320.0,
+            340.0,
+            315.0,
+            360.0,
+            380.0,
+            370.0,
+            400.0,
+            407.142857142857,
+            420.178571428571,
+            433.214285714286,
+            446.25,
+            459.285714285714,
+            472.321428571428,
+            485.357142857143,
+            498.392857142857,
+            511.428571428571,
+            524.464285714286,
+            537.5,
+            550.535714285714,
+            563.571428571428,
+            576.607142857143,
+            589.642857142857,
+            602.678571428571,
+            615.714285714285,
+            628.75,
+            641.785714285714,
+            654.821428571428,
+            667.857142857143,
+            680.892857142857,
+            693.928571428571,
+            706.964285714285,
+            720.0,
+            733.035714285714,
+            746.071428571428,
+            759.107142857143,
+            772.142857142857
+          ],
+          "source": "excel_auto_detect"
+        }
+      },
+      {
+        "role": "user",
+        "content": "I want this chart in bnr colors now",
+        "timestamp": "2025-11-11T19:49:39.791187",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I can only assist with creating charts, not modifying colors or styles.",
+        "timestamp": "2025-11-11T19:49:44.079392",
+        "metadata": null
       }
     ]
   },
