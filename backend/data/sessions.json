@@ -1901,5 +1901,316 @@
         }
       }
     ]
+  },
+  "test-1762897075040": {
+    "session_id": "test-1762897075040",
+    "style": "fd",
+    "created_at": "2025-11-11T21:37:55.046048",
+    "last_used": "2025-11-11T21:38:00.730742",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "What's the weather today?",
+        "timestamp": "2025-11-11T21:37:55.049892",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "This request is not about creating a chart.",
+        "timestamp": "2025-11-11T21:38:00.730729",
+        "metadata": null
+      }
+    ]
+  },
+  "test-1762897081736": {
+    "session_id": "test-1762897081736",
+    "style": "fd",
+    "created_at": "2025-11-11T21:38:01.740501",
+    "last_used": "2025-11-11T21:38:06.732222",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Help me write an essay",
+        "timestamp": "2025-11-11T21:38:01.743562",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to help create charts, not to assist with writing essays.",
+        "timestamp": "2025-11-11T21:38:06.732210",
+        "metadata": null
+      }
+    ]
+  },
+  "test-1762897087735": {
+    "session_id": "test-1762897087735",
+    "style": "fd",
+    "created_at": "2025-11-11T21:38:07.739675",
+    "last_used": "2025-11-11T21:38:11.513638",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Make a pie chart with data",
+        "timestamp": "2025-11-11T21:38:07.742591",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I'm unable to create a pie chart.",
+        "timestamp": "2025-11-11T21:38:11.513629",
+        "metadata": null
+      }
+    ]
+  },
+  "test-1762897092516": {
+    "session_id": "test-1762897092516",
+    "style": "fd",
+    "created_at": "2025-11-11T21:38:12.527399",
+    "last_used": "2025-11-11T21:38:16.892261",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Tell me a joke",
+        "timestamp": "2025-11-11T21:38:12.532147",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I can only assist with creating charts.",
+        "timestamp": "2025-11-11T21:38:16.892252",
+        "metadata": null
+      }
+    ]
+  },
+  "test-1762897097895": {
+    "session_id": "test-1762897097895",
+    "style": "fd",
+    "created_at": "2025-11-11T21:38:17.900247",
+    "last_used": "2025-11-11T21:38:22.385899",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "What is 2+2?",
+        "timestamp": "2025-11-11T21:38:17.903445",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "This request is not about creating a chart.",
+        "timestamp": "2025-11-11T21:38:22.385889",
+        "metadata": null
+      }
+    ]
+  },
+  "explicit-type-test-1762897204": {
+    "session_id": "explicit-type-test-1762897204",
+    "style": "fd",
+    "created_at": "2025-11-11T21:40:04.665553",
+    "last_used": "2025-11-11T21:40:28.591245",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
+        "timestamp": "2025-11-11T21:40:04.668759",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-11T21:40:07.945961",
+        "metadata": {
+          "chart_id": "72af56bc-3b78-460a-9291-622269a774d3",
+          "chart_type": "bar",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0,
+            175.0
+          ],
+          "title": "Quarterly Data"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Make a line chart: Apple=25, Banana=30, Orange=20",
+        "timestamp": "2025-11-11T21:40:08.955283",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "The data provided is categorical and does not represent a time series.",
+        "timestamp": "2025-11-11T21:40:11.447817",
+        "metadata": null
+      },
+      {
+        "role": "user",
+        "content": "Show me a bar chart with 2020=100, 2021=150, 2022=200",
+        "timestamp": "2025-11-11T21:40:12.460129",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-11T21:40:15.728468",
+        "metadata": {
+          "chart_id": "a7f5d718-d6c4-4087-a2a2-596331e527da",
+          "chart_type": "bar",
+          "x_labels": [
+            "2020",
+            "2021",
+            "2022"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0
+          ],
+          "title": "Bar Chart of Yearly Data"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Chart this: Jan=50, Feb=60, Mar=70, Apr=80",
+        "timestamp": "2025-11-11T21:40:16.737661",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a line chart for you!",
+        "timestamp": "2025-11-11T21:40:19.164322",
+        "metadata": {
+          "chart_id": "bd69bba1-5334-416d-ab12-36747c81abfa",
+          "chart_type": "line",
+          "x_labels": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr"
+          ],
+          "y_values": [
+            50.0,
+            60.0,
+            70.0,
+            80.0
+          ],
+          "title": "Monthly Data"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Show chart: Dogs=40, Cats=35, Birds=25",
+        "timestamp": "2025-11-11T21:40:20.173458",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-11T21:40:21.964220",
+        "metadata": {
+          "chart_id": "d64f3a67-5fd9-48fb-89f7-08e504cc4dbd",
+          "chart_type": "bar",
+          "x_labels": [
+            "Dogs",
+            "Cats",
+            "Birds"
+          ],
+          "y_values": [
+            40.0,
+            35.0,
+            25.0
+          ],
+          "title": "Pet Comparison"
+        }
+      },
+      {
+        "role": "user",
+        "content": "I need a bar graph: Q1=10, Q2=20, Q3=15, Q4=25",
+        "timestamp": "2025-11-11T21:40:22.976085",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-11T21:40:25.275403",
+        "metadata": {
+          "chart_id": "93ababf1-1a02-405c-a5f4-fac47bcbc575",
+          "chart_type": "bar",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            10.0,
+            20.0,
+            15.0,
+            25.0
+          ],
+          "title": "Quarterly Data"
+        }
+      },
+      {
+        "role": "user",
+        "content": "Can you make a line graph with ProductA=100, ProductB=200, ProductC=150",
+        "timestamp": "2025-11-11T21:40:26.284948",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "The data provided is categorical and does not represent a time series.",
+        "timestamp": "2025-11-11T21:40:28.591236",
+        "metadata": null
+      }
+    ]
+  },
+  "test-session-1762897233": {
+    "session_id": "test-session-1762897233",
+    "style": "fd",
+    "created_at": "2025-11-11T21:40:33.878090",
+    "last_used": "2025-11-11T21:40:36.258353",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create a bar chart: Q1=100, Q2=150, Q3=200, Q4=175",
+        "timestamp": "2025-11-11T21:40:33.882841",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-11T21:40:36.258343",
+        "metadata": {
+          "chart_id": "8ea6dbcb-ccf3-4562-a58f-5686f4900ef0",
+          "chart_type": "bar",
+          "x_labels": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4"
+          ],
+          "y_values": [
+            100.0,
+            150.0,
+            200.0,
+            175.0
+          ],
+          "title": "Quarterly Data"
+        }
+      }
+    ]
+  },
+  "session-1762811099195-iv3x1l": {
+    "session_id": "session-1762811099195-iv3x1l",
+    "style": "fd",
+    "created_at": "2025-11-11T21:44:31.673444",
+    "last_used": "2025-11-11T21:44:31.673444",
+    "chat_history": []
   }
 }

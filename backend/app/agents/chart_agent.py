@@ -1,9 +1,13 @@
-"""OpenAI-based agent for chart generation"""
+"""Chart generation agent with OpenAI and fallback support"""
 import json
+import logging
 from typing import Literal, Optional, List, Dict, Any
 from openai import AsyncOpenAI
 from app.models.schemas import ChartData
 from app.config.settings import settings
+from app.agents.fallback_agent import fallback_agent
+
+logger = logging.getLogger(__name__)
 
 
 # System prompt for the chart agent
@@ -158,8 +162,16 @@ Examples of INVALID requests (refuse these):
 """
 
 
-# Initialize OpenAI client
-client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+# Check if OpenAI API key is available
+HAS_OPENAI_KEY = bool(settings.OPENAI_API_KEY and settings.OPENAI_API_KEY.strip())
+
+# Initialize OpenAI client only if key is available
+client = None
+if HAS_OPENAI_KEY:
+    client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+    logger.info("OpenAI client initialized successfully")
+else:
+    logger.warning("No OpenAI API key found. Using fallback rule-based agent.")
 
 
 async def analyze_chart_request(
@@ -168,7 +180,10 @@ async def analyze_chart_request(
 ) -> ChartData:
     """
     Analyze a user's message to determine if it's a valid chart request
-    and extract chart data if valid
+    and extract chart data if valid.
+    
+    Automatically uses OpenAI if API key is available, otherwise falls back
+    to rule-based pattern matching.
     
     Args:
         user_message: The user's input message
@@ -177,7 +192,15 @@ async def analyze_chart_request(
     Returns:
         ChartData object with validation and extraction results
     """
+    # Use fallback agent if no OpenAI key is available
+    if not HAS_OPENAI_KEY:
+        logger.debug("Using fallback agent for: %s", user_message[:50])
+        return await fallback_agent.analyze(user_message, conversation_history)
+    
+    # Use OpenAI agent
     try:
+        logger.debug("Using OpenAI agent for: %s", user_message[:50])
+        
         # Build messages array with conversation history
         messages = [{"role": "system", "content": CHART_AGENT_PROMPT}]
         
@@ -209,8 +232,6 @@ async def analyze_chart_request(
         return ChartData(**data)
     
     except Exception as e:
-        # If there's an error, return a refusal
-        return ChartData(
-            is_valid=False,
-            reason=f"I encountered an error processing your request: {str(e)}"
-        )
+        logger.error("OpenAI agent error: %s. Falling back to rule-based agent.", e)
+        # Fallback to rule-based agent if OpenAI fails
+        return await fallback_agent.analyze(user_message, conversation_history)
