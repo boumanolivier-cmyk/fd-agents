@@ -20,12 +20,14 @@ export interface ChatResponse {
   response: string;
   chart_url?: string;
   chart_id?: string;
+  color_scheme?: ChartStyle;
 }
 
 export interface UploadResponse {
   response: string;
   chart_url?: string;
   chart_id?: string;
+  color_scheme?: ChartStyle;
 }
 
 export interface StylePreference {

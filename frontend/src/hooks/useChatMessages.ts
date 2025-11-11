@@ -9,6 +9,7 @@ import {
   isLoadingAtom,
   currentChartAtom,
   errorAtom,
+  stylePreferenceAtom,
 } from "../state/atoms";
 import { sendChatMessage, clearChatHistory } from "../api/client";
 import type { Message } from "../types";
@@ -20,6 +21,7 @@ export function useChatMessages() {
   const [error, setError] = useAtom(errorAtom);
   const sessionId = useAtomValue(sessionIdAtom);
   const setCurrentChart = useSetAtom(currentChartAtom);
+  const setStylePreference = useSetAtom(stylePreferenceAtom);
 
   const handleNewConversation = async () => {
     try {
@@ -69,6 +71,11 @@ export function useChatMessages() {
           url: response.chart_url,
           id: response.chart_id,
         });
+      }
+
+      // Update style preference if agent selected a color scheme
+      if (response.color_scheme) {
+        setStylePreference(response.color_scheme);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to send message");

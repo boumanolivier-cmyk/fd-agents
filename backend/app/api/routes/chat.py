@@ -72,7 +72,7 @@ async def chat(request: ChatRequest):
                 logger.warning("Failed to coerce y_values to floats: %s", e)
                 error_msg = "I couldn't interpret the numeric values for the chart. Please provide numbers for the y-axis."
                 persistence.add_to_chat_history(request.session_id, "assistant", error_msg)
-                return ChatResponse(response=error_msg, chart_url=None, chart_id=None)
+                return ChatResponse(response=error_msg, chart_url=None, chart_id=None, color_scheme=None)
         
         # If not a valid chart request, return refusal
         if not chart_data.is_valid:
@@ -88,7 +88,8 @@ async def chat(request: ChatRequest):
             return ChatResponse(
                 response=response_text,
                 chart_url=None,
-                chart_id=None
+                chart_id=None,
+                color_scheme=None
             )
         
         # If valid and we have data, generate chart (use inferred/coerced values)
@@ -141,7 +142,8 @@ async def chat(request: ChatRequest):
                 return ChatResponse(
                     response=response_text,
                     chart_url=f"/charts/{chart_id}.png",
-                    chart_id=chart_id
+                    chart_id=chart_id,
+                    color_scheme=style
                 )
             except Exception as e:
                 error_text = f"I understood your request, but encountered an error generating the chart: {str(e)}"
@@ -157,7 +159,8 @@ async def chat(request: ChatRequest):
                 return ChatResponse(
                     response=error_text,
                     chart_url=None,
-                    chart_id=None
+                    chart_id=None,
+                    color_scheme=None
                 )
         else:
             # Graceful fallback if something still missing
@@ -173,7 +176,8 @@ async def chat(request: ChatRequest):
             return ChatResponse(
                 response=clarification_text,
                 chart_url=None,
-                chart_id=None
+                chart_id=None,
+                color_scheme=None
             )
     
     except Exception as e:

@@ -27,6 +27,7 @@ class ChatResponse(BaseModel):
     response: str = Field(description="AI agent's text response")
     chart_url: Optional[str] = Field(None, description="URL to generated chart if applicable")
     chart_id: Optional[str] = Field(None, description="Chart ID for downloading")
+    color_scheme: Optional[Literal["fd", "bnr"]] = Field(None, description="Color scheme used for the chart")
 
 
 class UploadResponse(BaseModel):
@@ -34,6 +35,7 @@ class UploadResponse(BaseModel):
     response: str = Field(description="AI agent's text response")
     chart_url: Optional[str] = Field(None, description="URL to generated chart if applicable")
     chart_id: Optional[str] = Field(None, description="Chart ID for downloading")
+    color_scheme: Optional[Literal["fd", "bnr"]] = Field(None, description="Color scheme used for the chart")
 
 
 class StylePreference(BaseModel):

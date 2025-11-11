@@ -79,7 +79,8 @@ async def upload_excel(
                 return UploadResponse(
                     response=f"Error reading Excel file: {parsed.get('error', 'Unknown error')}",
                     chart_url=None,
-                    chart_id=None
+                    chart_id=None,
+                    color_scheme=None
                 )
             
             # Try auto-detection first
@@ -131,7 +132,8 @@ async def upload_excel(
                 return UploadResponse(
                     response=response_text,
                     chart_url=f"/charts/{chart_id}.png",
-                    chart_id=chart_id
+                    chart_id=chart_id,
+                    color_scheme=style
                 )
             else:
                 # Fall back to AI agent to interpret the data
@@ -187,7 +189,8 @@ async def upload_excel(
                     return UploadResponse(
                         response=response_text,
                         chart_url=f"/charts/{chart_id}.png",
-                        chart_id=chart_id
+                        chart_id=chart_id,
+                        color_scheme=style
                     )
                 else:
                     error_text = "I couldn't automatically determine how to chart this data. The Excel file should have clear columns with labels and numeric values."
@@ -202,7 +205,8 @@ async def upload_excel(
                     return UploadResponse(
                         response=error_text,
                         chart_url=None,
-                        chart_id=None
+                        chart_id=None,
+                        color_scheme=None
                     )
         
         finally:

@@ -9,6 +9,7 @@ import {
   isLoadingAtom,
   currentChartAtom,
   errorAtom,
+  stylePreferenceAtom,
 } from "../state/atoms";
 import { uploadExcelFile } from "../api/client";
 import type { Message } from "../types";
@@ -21,6 +22,7 @@ export function useFileUpload() {
   const sessionId = useAtomValue(sessionIdAtom);
   const setChatHistory = useSetAtom(chatHistoryAtom);
   const setCurrentChart = useSetAtom(currentChartAtom);
+  const setStylePreference = useSetAtom(stylePreferenceAtom);
 
   const handleFile = useCallback(
     async (file: File) => {
@@ -60,6 +62,11 @@ export function useFileUpload() {
             url: response.chart_url,
             id: response.chart_id,
           });
+        }
+
+        // Update style preference if agent selected a color scheme
+        if (response.color_scheme) {
+          setStylePreference(response.color_scheme);
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to upload file");
