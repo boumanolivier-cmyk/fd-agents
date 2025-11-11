@@ -29,15 +29,27 @@ class SessionData(TypedDict):
 class PersistenceService:
     """Handles session storage and retrieval"""
     
-    def __init__(self, session_file: Path = settings.SESSION_FILE):
+    def __init__(
+        self, 
+        session_file: Path = settings.SESSION_FILE,
+        memory_file: Optional[Path] = None
+    ):
         self.session_file = session_file
+        self.memory_file = memory_file or (settings.DATA_DIR / "persistent-memory.json")
         self._ensure_file_exists()
+        self._ensure_memory_file_exists()
     
     def _ensure_file_exists(self) -> None:
         """Ensure the session file exists"""
         if not self.session_file.exists():
             self.session_file.write_text("{}")
             logger.info("Created new session file: %s", self.session_file)
+    
+    def _ensure_memory_file_exists(self) -> None:
+        """Ensure the persistent memory file exists"""
+        if not self.memory_file.exists():
+            self.memory_file.write_text('{"color_scheme": "fd"}')
+            logger.info("Created new persistent memory file: %s", self.memory_file)
     
     def _load_sessions(self) -> Dict[str, SessionData]:
         """Load all sessions from file"""
@@ -159,6 +171,30 @@ class PersistenceService:
             sessions[session_id]["chat_history"] = []
             self._save_sessions(sessions)
             logger.info("Cleared chat history for session: %s", session_id)
+    
+    def get_persistent_color_scheme(self) -> Literal["fd", "bnr"]:
+        """Get the persistent color scheme from memory"""
+        try:
+            with open(self.memory_file, "r") as f:
+                data = json.load(f)
+                color_scheme = data.get("color_scheme", "fd")
+                # Validate the color scheme
+                if color_scheme not in ["fd", "bnr"]:
+                    logger.warning("Invalid color scheme '%s', defaulting to 'fd'", color_scheme)
+                    return "fd"
+                return color_scheme
+        except (json.JSONDecodeError, FileNotFoundError) as e:
+            logger.warning("Failed to load persistent memory: %s, defaulting to 'fd'", e)
+            return "fd"
+    
+    def set_persistent_color_scheme(self, color_scheme: Literal["fd", "bnr"]) -> None:
+        """Set the persistent color scheme in memory"""
+        try:
+            with open(self.memory_file, "w") as f:
+                json.dump({"color_scheme": color_scheme}, f, indent=2)
+            logger.info("Updated persistent color scheme to: %s", color_scheme)
+        except Exception as e:
+            logger.error("Failed to save persistent color scheme: %s", e, exc_info=True)
 
 
 # Global instance

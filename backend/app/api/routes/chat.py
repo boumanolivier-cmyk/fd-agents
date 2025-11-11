@@ -26,8 +26,8 @@ async def chat(request: ChatRequest):
         # Update session last used
         persistence.update_last_used(request.session_id)
         
-        # Get style preference
-        style = persistence.get_style_preference(request.session_id)
+        # Get style preference from session (user can still manually override)
+        session_style = persistence.get_style_preference(request.session_id)
         
         # Get conversation history for context
         conversation_history = persistence.get_chat_history(request.session_id)
@@ -94,6 +94,23 @@ async def chat(request: ChatRequest):
         # If valid and we have data, generate chart (use inferred/coerced values)
         if chart_type and x_labels and coerced_y:
             try:
+                # Determine which color scheme to use:
+                # 1. Agent's decision (if provided)
+                # 2. Session preference (manual UI selection)
+                # 3. Persistent memory (from previous agent decisions)
+                # 4. Default to 'fd'
+                style = (
+                    chart_data.color_scheme or  # Agent's decision
+                    session_style or  # User's manual selection
+                    persistence.get_persistent_color_scheme() or  # Previous agent decision
+                    "fd"  # Default
+                )
+                
+                # If agent decided on a color scheme, persist it for future requests
+                if chart_data.color_scheme:
+                    persistence.set_persistent_color_scheme(chart_data.color_scheme)
+                    logger.info("Agent selected color scheme: %s", chart_data.color_scheme)
+                
                 result = chart_generator.generate_both_formats(
                     chart_type=chart_type,
                     x_labels=x_labels,

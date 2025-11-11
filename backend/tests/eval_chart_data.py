@@ -13,15 +13,15 @@ from app.agents.chart_agent import analyze_chart_request
 
 # Test cases: (request, expected_data, allow_flexible_chart_type)
 TEST_CASES = [
-    # Original test cases with flexible chart type
     (
-        "Give me a chart with the number of check-ins per day for public transport (OV): Monday = 4.1, Tuesday = 4.2, Wednesday = 4.4, Thursday = 4.7, Friday = 4.2, Saturday = 2.3, Sunday = 1.7. The numbers are in millions of check-ins.",
+        "Give me a chart with the number of check-ins per day for public transport (OV): Monday=4.1, Tuesday=4.2, Wednesday=4.4, Thursday=4.7, Friday=4.2, Saturday=2.3, Sunday=1.7",
         {
-            "chart_type": "line",  # Days of week = time series, so line is correct
+            "chart_type": "line",  # Days = time series, should be line
             "x_labels": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
             "y_values": [4.1, 4.2, 4.4, 4.7, 4.2, 2.3, 1.7],
+            "color_scheme": None,  # No specific color scheme expected
         },
-        True  # Allow flexible chart type (line makes sense for days of week)
+        True  # Flexible - could be bar or line for days
     ),
     (
         "I want a chart that shows how many billion euros of student debt students have in recent years. The values are: 2020 = 25, 2021 = 26, 2022 = 26.5, 2023 = 27.3, 2024 = 27.9, 2025 = 29",
@@ -29,6 +29,7 @@ TEST_CASES = [
             "chart_type": "line",  # Time series, should be line
             "x_labels": ["2020", "2021", "2022", "2023", "2024", "2025"],
             "y_values": [25.0, 26.0, 26.5, 27.3, 27.9, 29.0],
+            "color_scheme": "fd",  # Financial/debt data = FD
         },
         False  # Strict - years should always be line
     ),
@@ -38,6 +39,7 @@ TEST_CASES = [
             "chart_type": "bar",  # Explicit bar request
             "x_labels": ["Apple", "Banana", "Orange"],
             "y_values": [50.0, 30.0, 45.0],
+            "color_scheme": None,  # No specific color scheme expected
         },
         False  # Strict - explicit request must be honored
     ),
@@ -49,6 +51,7 @@ TEST_CASES = [
             "chart_type": "bar",  # Explicit bar request (should override time series)
             "x_labels": ["Q1", "Q2", "Q3", "Q4"],
             "y_values": [100.0, 150.0, 200.0, 175.0],
+            "color_scheme": None,  # No specific color scheme expected
         },
         False  # Strict - explicit bar request
     ),
@@ -58,15 +61,17 @@ TEST_CASES = [
             "chart_type": "line",  # Explicit line request (should override categorical)
             "x_labels": ["North", "South", "East", "West"],
             "y_values": [500.0, 750.0, 600.0, 550.0],
+            "color_scheme": None,  # No specific color scheme expected
         },
         False  # Strict - explicit line request
     ),
     (
-        "Chart this data: 2020=10.5, 2021=12.3, 2022=15.8, 2023=18.2",
+        "Chart this financial data: 2020=10.5, 2021=12.3, 2022=15.8, 2023=18.2",
         {
             "chart_type": "line",  # Years = time series (no explicit type)
             "x_labels": ["2020", "2021", "2022", "2023"],
             "y_values": [10.5, 12.3, 15.8, 18.2],
+            "color_scheme": "fd",  # Financial keyword = FD
         },
         False  # Strict - time series should be line
     ),
@@ -76,6 +81,7 @@ TEST_CASES = [
             "chart_type": "bar",  # Products = categories (no explicit type)
             "x_labels": ["ProductA", "ProductB", "ProductC", "ProductD"],
             "y_values": [1250.0, 980.0, 1450.0, 1100.0],
+            "color_scheme": None,  # No specific color scheme expected
         },
         False  # Strict - categorical should be bar
     ),
@@ -85,6 +91,7 @@ TEST_CASES = [
             "chart_type": "line",  # Explicit line + months = definitely line
             "x_labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
             "y_values": [25.5, 27.8, 26.3, 29.1, 31.5, 33.2],
+            "color_scheme": None,  # No specific color scheme expected
         },
         False  # Strict - explicit request
     ),
@@ -94,6 +101,7 @@ TEST_CASES = [
             "chart_type": "bar",  # Starts with "Bar chart"
             "x_labels": ["Dog", "Cat", "Bird", "Fish"],
             "y_values": [42.0, 38.0, 25.0, 15.0],
+            "color_scheme": None,  # No specific color scheme expected
         },
         False  # Strict - explicit bar
     ),
@@ -103,8 +111,31 @@ TEST_CASES = [
             "chart_type": "line",  # Weeks = time series
             "x_labels": ["Week1", "Week2", "Week3", "Week4", "Week5"],
             "y_values": [100.0, 120.0, 105.0, 130.0, 125.0],
+            "color_scheme": None,  # No specific color scheme expected
         },
         False  # Strict - time series
+    ),
+    
+    # NEW: Color scheme specific tests
+    (
+        "Chart corporate revenue: Q1=2.5M, Q2=3.1M, Q3=3.8M, Q4=4.2M",
+        {
+            "chart_type": "line",  # Quarters = time series
+            "x_labels": ["Q1", "Q2", "Q3", "Q4"],
+            "y_values": [2.5, 3.1, 3.8, 4.2],
+            "color_scheme": "fd",  # Corporate/revenue = FD
+        },
+        False  # Strict
+    ),
+    (
+        "Show BNR news ratings: Morning=125K, Afternoon=95K, Evening=180K",
+        {
+            "chart_type": "bar",  # Categories
+            "x_labels": ["Morning", "Afternoon", "Evening"],
+            "y_values": [125.0, 95.0, 180.0],
+            "color_scheme": "bnr",  # BNR explicitly mentioned = BNR
+        },
+        False  # Strict
     ),
 ]
 
@@ -115,7 +146,7 @@ def check_data_match(actual, expected, allow_flexible_chart_type=False):
     
     Args:
         actual: The ChartData result from the agent
-        expected: Expected data dict with chart_type, x_labels, y_values
+        expected: Expected data dict with chart_type, x_labels, y_values, color_scheme
         allow_flexible_chart_type: If True, allows either bar or line for chart_type
     
     Returns:
@@ -136,6 +167,14 @@ def check_data_match(actual, expected, allow_flexible_chart_type=False):
             errors.append(
                 f"Invalid chart type: got {actual.chart_type}, "
                 f"expected 'bar' or 'line'"
+            )
+    
+    # Check color scheme if specified in expected
+    if "color_scheme" in expected and expected["color_scheme"] is not None:
+        if actual.color_scheme != expected["color_scheme"]:
+            errors.append(
+                f"Color scheme mismatch: expected {expected['color_scheme']}, "
+                f"got {actual.color_scheme}"
             )
     
     # Check x_labels

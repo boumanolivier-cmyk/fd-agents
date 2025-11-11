@@ -8,6 +8,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from tests.eval_refusal import run_eval as run_refusal_eval
 from tests.eval_chart_data import run_eval as run_data_eval
+from tests.eval_color_scheme import run_eval as run_color_eval
 
 
 async def run_all_evals():
@@ -30,6 +31,20 @@ async def run_all_evals():
     passed2, failed2 = await run_data_eval()
     total_passed += passed2
     total_failed += failed2
+    
+    print("\n\n")
+    
+    # Run Eval 3: Color Scheme Selection and Persistence
+    # Note: run_color_eval returns success_rate, not (passed, failed)
+    # We'll extract passed/failed from the eval results
+    color_result = await run_color_eval()
+    # For now, just track that it ran (we'll count it as 1 test suite)
+    if color_result >= 90:
+        total_passed += 1
+        print("\n✅ Color Scheme Eval: PASSED\n")
+    else:
+        total_failed += 1
+        print("\n❌ Color Scheme Eval: FAILED\n")
     
     # Final summary
     print("\n" + "=" * 80)

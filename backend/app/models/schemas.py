@@ -13,6 +13,7 @@ class ChartData(BaseModel):
     y_label: Optional[str] = Field(None, description="Y-axis label")
     x_labels: Optional[list[str]] = Field(None, description="X-axis category labels")
     y_values: Optional[list[float]] = Field(None, description="Y-axis numerical values")
+    color_scheme: Optional[Literal["fd", "bnr"]] = Field(None, description="Color scheme determined by context")
 
 
 class ChatRequest(BaseModel):

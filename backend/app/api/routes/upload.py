@@ -90,13 +90,16 @@ async def upload_excel(
                     filename=file.filename
                 )
             
-            # Get style preference
-            style = persistence.get_style_preference(session_id)
+            # Get style preference from session
+            session_style = persistence.get_style_preference(session_id)
             
             # If auto-detection worked, use it
             if auto_data:
                 chart_type = auto_data.get("chart_type", "bar")
                 logger.info("Auto-detected chart type: %s", chart_type)
+                
+                # For auto-detected data, use session style or persistent memory
+                style = session_style or persistence.get_persistent_color_scheme() or "fd"
                 
                 result = chart_generator.generate_both_formats(
                     chart_type=chart_type,
@@ -141,6 +144,19 @@ async def upload_excel(
                 )
                 
                 if chart_data.is_valid and chart_data.chart_type and chart_data.x_labels and chart_data.y_values:
+                    # Determine color scheme: agent's decision > session > persistent memory > default
+                    style = (
+                        chart_data.color_scheme or
+                        session_style or
+                        persistence.get_persistent_color_scheme() or
+                        "fd"
+                    )
+                    
+                    # If agent decided on a color scheme, persist it
+                    if chart_data.color_scheme:
+                        persistence.set_persistent_color_scheme(chart_data.color_scheme)
+                        logger.info("Agent selected color scheme: %s", chart_data.color_scheme)
+                    
                     result = chart_generator.generate_both_formats(
                         chart_type=chart_data.chart_type,
                         x_labels=chart_data.x_labels,
