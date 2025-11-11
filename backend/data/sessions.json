@@ -615,13 +615,6 @@
       }
     ]
   },
-  "session-1762811099195-iv3x1l": {
-    "session_id": "session-1762811099195-iv3x1l",
-    "style": "fd",
-    "created_at": "2025-11-10T21:45:03.516884",
-    "last_used": "2025-11-11T20:55:47.535993",
-    "chat_history": []
-  },
   "test-session-1762811381": {
     "session_id": "test-session-1762811381",
     "style": "fd",
@@ -1871,6 +1864,40 @@
             175.0
           ],
           "title": "Quarterly Sales Data"
+        }
+      }
+    ]
+  },
+  "excel-test-1762895553": {
+    "session_id": "excel-test-1762895553",
+    "style": "fd",
+    "created_at": "2025-11-11T21:12:33.411635",
+    "last_used": "2025-11-11T21:12:36.286394",
+    "chat_history": [
+      {
+        "role": "user",
+        "content": "Create a bar chart: A=10, B=20, C=30",
+        "timestamp": "2025-11-11T21:12:33.415848",
+        "metadata": null
+      },
+      {
+        "role": "assistant",
+        "content": "I've created a bar chart for you!",
+        "timestamp": "2025-11-11T21:12:36.286384",
+        "metadata": {
+          "chart_id": "9131f907-693b-47fd-b494-818f9d7bfa46",
+          "chart_type": "bar",
+          "x_labels": [
+            "A",
+            "B",
+            "C"
+          ],
+          "y_values": [
+            10.0,
+            20.0,
+            30.0
+          ],
+          "title": "Bar Chart of A, B, and C"
         }
       }
     ]

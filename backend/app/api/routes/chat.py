@@ -187,11 +187,11 @@ async def chat(request: ChatRequest):
 
 @router.delete("/chat/{session_id}")
 async def clear_chat_history(session_id: str):
-    """Clear chat history for a session"""
+    """Delete a session completely (for new conversation)"""
     try:
-        persistence.clear_chat_history(session_id)
-        logger.info("Cleared chat history for session: %s", session_id)
-        return {"success": True, "message": "Chat history cleared"}
+        persistence.delete_session(session_id)
+        logger.info("Deleted session completely: %s", session_id)
+        return {"success": True, "message": "Session deleted"}
     except Exception as e:
-        logger.error("Failed to clear chat history: %s", e, exc_info=True)
+        logger.error("Failed to delete session: %s", e, exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))

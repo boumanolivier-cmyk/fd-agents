@@ -172,6 +172,19 @@ class PersistenceService:
             self._save_sessions(sessions)
             logger.info("Cleared chat history for session: %s", session_id)
     
+    def delete_session(self, session_id: str) -> None:
+        """Completely delete a session from storage"""
+        sessions = self._load_sessions()
+        if session_id in sessions:
+            del sessions[session_id]
+            self._save_sessions(sessions)
+            logger.info("Deleted session: %s", session_id)
+    
+    def clear_all_sessions(self) -> None:
+        """Clear all sessions from storage (wipe sessions.json)"""
+        self._save_sessions({})
+        logger.info("Cleared all sessions from storage")
+    
     def get_persistent_color_scheme(self) -> Literal["fd", "bnr"]:
         """Get the persistent color scheme from memory"""
         try:

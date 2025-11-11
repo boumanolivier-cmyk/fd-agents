@@ -57,11 +57,16 @@ async def upload_excel(
         # Update session last used
         persistence.update_last_used(session_id)
         
-        # Add upload action to history
+        # Add upload action to history with metadata
         persistence.add_to_chat_history(
             session_id,
             "user",
-            f"Uploaded Excel file: {file.filename}"
+            f"Uploaded Excel file: {file.filename}",
+            metadata={
+                "type": "file_upload",
+                "filename": file.filename,
+                "file_size": file_size
+            }
         )
         
         # Save uploaded file temporarily
